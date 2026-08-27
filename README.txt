@@ -172,3 +172,28 @@ PIXILNOISE PERSONAL SITE v45 OGP / FAVICON
   https://pixilnoise.github.io/pixilnoiseweb/
 - OGP image URL:
   https://pixilnoise.github.io/pixilnoiseweb/ogp.jpg
+
+
+PIXILNOISE PERSONAL SITE v46 FORMSPREE CONTACT
+==============================================
+- CONTACT now submits directly from the website through Formspree.
+- Form endpoint: https://formspree.io/f/mbgjrbre
+- Mail application is no longer opened for normal submissions.
+- Added in-page SENDING, success, and error states.
+- Added MESSAGE SENT confirmation panel and NEW MESSAGE reset button.
+- Existing REQUEST -> CONTACT subject-template links remain supported.
+- Added a hidden honeypot field for basic bot filtering.
+- OGP / favicon and all existing site features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v47 CONTACT VALIDATION
+================================================
+- Added custom required-field validation for name, email, subject, and message.
+- Added email-format validation.
+- Validation and send errors are shown in Japanese + English.
+- Added a persistent 30-second resend cooldown after successful submission.
+- Submit button displays a countdown and remains disabled during cooldown.
+- After the first successful message, the success panel recommends sending a
+  second or later message directly from the user's own email account.
+- Added direct mail link to pixilnoise2000@gmail.com in the success panel.
+- Existing Formspree endpoint, OGP, favicon, REQUEST subject preset, and site UI are preserved.

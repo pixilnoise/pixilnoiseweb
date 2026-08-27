@@ -2732,3 +2732,188 @@ body.page-ready{
     transform:none;
   }
 }
+
+
+/* ===== v46: Formspree direct CONTACT submission ===== */
+.contact-honeypot{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+.contact-submit-btn:disabled{
+  cursor:wait;
+  opacity:.62;
+  transform:none !important;
+}
+.contact-submit-btn.is-sending{
+  background:#bfc7d2;
+  border-color:#dce3ec;
+}
+#contactFormStatus{
+  transition:color .2s ease, opacity .2s ease;
+}
+#contactFormStatus.is-success{color:#dfe8f5 !important}
+#contactFormStatus.is-error{color:#e0a6a6 !important}
+.contact-field,
+.contact-submit-row{
+  transition:opacity .18s ease, filter .18s ease, transform .18s ease;
+}
+.contact-field.is-submit-complete,
+.contact-submit-row.is-submit-complete{
+  opacity:.16;
+  filter:blur(1px);
+  pointer-events:none;
+  transform:translateY(-2px);
+}
+.contact-success-panel{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:18px;
+  margin-top:-2px;
+  padding:22px;
+  border:1px solid rgba(225,235,248,.42);
+  background:linear-gradient(135deg,rgba(225,235,248,.07),rgba(7,12,20,.88) 42%);
+  opacity:0;
+  transform:translateY(7px);
+  transition:opacity .18s ease, transform .18s ease;
+}
+.contact-success-panel[hidden]{display:none}
+.contact-success-panel.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.contact-success-mark{
+  display:grid;
+  place-items:center;
+  width:44px;
+  height:44px;
+  border:1px solid rgba(255,255,255,.65);
+  color:#f1f5fa;
+  font-size:22px;
+  font-weight:300;
+}
+.contact-success-copy{min-width:0}
+.contact-success-copy > span{
+  display:block;
+  margin-bottom:5px;
+  color:#78869a;
+  font-size:9px;
+  letter-spacing:.16em;
+}
+.contact-success-copy strong{
+  display:block;
+  color:#eef2f7;
+  font-size:16px;
+  font-weight:300;
+  letter-spacing:.04em;
+}
+.contact-success-copy p{
+  margin:7px 0 0;
+  color:#7d899a;
+  font-size:11px;
+  line-height:1.8;
+}
+.contact-new-message{
+  border:1px solid rgba(255,255,255,.28);
+  background:#050910;
+  color:#c8d0dc;
+  min-height:42px;
+  padding:0 14px;
+  cursor:pointer;
+  font:300 9px/1 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.1em;
+  transition:border-color .2s ease,color .2s ease,background .2s ease;
+}
+.contact-new-message:hover{
+  color:#05080d;
+  background:#edf2f7;
+  border-color:#fff;
+}
+@media(max-width:700px){
+  .contact-success-panel{
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    padding:18px;
+  }
+  .contact-new-message{
+    grid-column:1 / -1;
+    width:100%;
+  }
+  .contact-success-copy strong{font-size:15px}
+  .contact-success-copy p{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  .contact-success-panel,
+  .contact-field,
+  .contact-submit-row{
+    transition:none !important;
+  }
+}
+
+
+/* ===== v47: CONTACT validation / 30s cooldown ===== */
+.contact-field-error{
+  display:block;
+  margin-top:8px;
+  color:#dca5a5;
+  font-size:10px;
+  line-height:1.65;
+  letter-spacing:.025em;
+}
+.contact-field-error[hidden]{display:none}
+.contact-field input.has-error,
+.contact-field textarea.has-error{
+  border-color:rgba(225,150,150,.78) !important;
+  box-shadow:inset 0 0 0 1px rgba(225,150,150,.08);
+}
+.contact-submit-btn.is-cooldown{
+  cursor:not-allowed;
+  opacity:.48;
+  background:#0a0e15;
+  color:#798392;
+  border-color:rgba(255,255,255,.15);
+}
+.contact-second-message-note{
+  margin-top:14px;
+  padding:12px 14px;
+  border-left:1px solid rgba(255,255,255,.46);
+  background:rgba(255,255,255,.025);
+}
+.contact-second-message-note b{
+  display:block;
+  color:#dce3ed;
+  font-size:11px;
+  font-weight:400;
+  line-height:1.8;
+}
+.contact-second-message-note small{
+  display:block;
+  margin-top:3px;
+  color:#717e90;
+  font-size:9px;
+  line-height:1.7;
+}
+.contact-second-message-note a{
+  display:inline-block;
+  margin-top:9px;
+  color:#bac5d3;
+  text-decoration:none;
+  font-size:10px;
+  letter-spacing:.04em;
+  border-bottom:1px solid rgba(255,255,255,.24);
+  transition:color .2s ease,border-color .2s ease;
+}
+.contact-second-message-note a:hover{
+  color:#fff;
+  border-color:#fff;
+}
+@media(max-width:700px){
+  .contact-field-error{font-size:10px}
+  .contact-second-message-note b{font-size:11px}
+  .contact-second-message-note small{font-size:9px}
+}

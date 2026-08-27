@@ -68,30 +68,50 @@
         <span>FORM / 04</span>
       </div>
 
-      <form class="contact-form" id="contactForm">
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mbgjrbre" method="POST" novalidate>
+        <input class="contact-honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="contact-field">
           <span class="contact-label">名前 / 名義 <small>NAME / CREATOR NAME</small></span>
-          <input type="text" id="contactName" name="name" autocomplete="name" placeholder="pixilnoise" required>
+          <input type="text" id="contactName" name="name" autocomplete="name" placeholder="pixilnoise" required aria-describedby="contactNameError">
+          <span class="contact-field-error" id="contactNameError" role="alert" hidden></span>
         </label>
 
         <label class="contact-field">
           <span class="contact-label">MAIL <small>E-MAIL ADDRESS</small></span>
-          <input type="email" id="contactMail" name="mail" autocomplete="email" placeholder="your@email.com" required>
+          <input type="email" id="contactMail" name="email" autocomplete="email" placeholder="your@email.com" required aria-describedby="contactMailError">
+          <span class="contact-field-error" id="contactMailError" role="alert" hidden></span>
         </label>
 
         <label class="contact-field">
           <span class="contact-label">件名 <small>SUBJECT</small></span>
-          <input type="text" id="contactSubject" name="subject" placeholder="お問い合わせ内容" required>
+          <input type="text" id="contactSubject" name="subject" placeholder="お問い合わせ内容" required aria-describedby="contactSubjectError">
+          <span class="contact-field-error" id="contactSubjectError" role="alert" hidden></span>
         </label>
 
         <label class="contact-field contact-field-message">
           <span class="contact-label">MESSAGE <small>DETAILS</small></span>
-          <textarea id="contactMessage" name="message" rows="9" placeholder="ご依頼内容・使用用途・予算・納期など、決まっている範囲でご記入ください。" required></textarea>
+          <textarea id="contactMessage" name="message" rows="9" placeholder="ご依頼内容・使用用途・予算・納期など、決まっている範囲でご記入ください。" required aria-describedby="contactMessageError"></textarea>
+          <span class="contact-field-error" id="contactMessageError" role="alert" hidden></span>
         </label>
 
         <div class="contact-submit-row">
-          <p id="contactFormStatus">入力後、送信ボタンからメールアプリを開きます。</p>
-          <button type="submit" class="contact-submit-btn">SEND MESSAGE <span>→</span></button>
+          <p id="contactFormStatus" role="status" aria-live="polite">このページから直接送信できます。</p>
+          <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">SEND MESSAGE <span>→</span></button>
+        </div>
+
+        <div class="contact-success-panel" id="contactSuccessPanel" hidden>
+          <div class="contact-success-mark" aria-hidden="true">✓</div>
+          <div class="contact-success-copy">
+            <span>MESSAGE SENT</span>
+            <strong>お問い合わせを送信しました。 / Your message has been sent.</strong>
+            <p>内容を確認後、返信いたします。 / I will review your message and reply after confirmation.</p>
+            <div class="contact-second-message-note">
+              <b>2通目以降は、ご使用のメールから直接送信することをおすすめします。</b>
+              <small>For a second or later message, we recommend sending directly from your own email account.</small>
+              <a href="mailto:pixilnoise2000@gmail.com">pixilnoise2000@gmail.com ↗</a>
+            </div>
+          </div>
+          <button class="contact-new-message" type="button" id="contactNewMessage">NEW MESSAGE</button>
         </div>
       </form>
     </div>
@@ -198,34 +218,271 @@ document.querySelectorAll('.digital').forEach(el=>{
 <script>
 (function(){
   const form = document.getElementById('contactForm');
+  const nameField = document.getElementById('contactName');
+  const mailField = document.getElementById('contactMail');
   const subject = document.getElementById('contactSubject');
+  const messageField = document.getElementById('contactMessage');
   const status = document.getElementById('contactFormStatus');
-  if(!form || !subject) return;
+  const submitBtn = document.getElementById('contactSubmitBtn');
+  const successPanel = document.getElementById('contactSuccessPanel');
+  const newMessageBtn = document.getElementById('contactNewMessage');
+  if(!form || !nameField || !mailField || !subject || !messageField || !status || !submitBtn) return;
 
   const params = new URLSearchParams(location.search);
   const preset = params.get('subject');
   if(preset) subject.value = preset;
 
-  form.addEventListener('submit', function(e){
-    e.preventDefault();
+  const defaultButtonHTML = submitBtn.innerHTML;
+  const cooldownKey = 'pixilnoiseContactCooldownUntil';
+  const cooldownMs = 30000;
+  let cooldownTimer = 0;
+  let sending = false;
 
-    const name = document.getElementById('contactName').value.trim();
-    const mail = document.getElementById('contactMail').value.trim();
-    const subj = subject.value.trim();
-    const message = document.getElementById('contactMessage').value.trim();
+  const fields = {
+    name: {
+      el: nameField,
+      error: document.getElementById('contactNameError'),
+      required: '名前 / 名義を入力してください。 / Please enter your name or creator name.'
+    },
+    email: {
+      el: mailField,
+      error: document.getElementById('contactMailError'),
+      required: 'メールアドレスを入力してください。 / Please enter your email address.',
+      invalid: '正しいメールアドレス形式で入力してください。 / Please enter a valid email address.'
+    },
+    subject: {
+      el: subject,
+      error: document.getElementById('contactSubjectError'),
+      required: '件名を入力してください。 / Please enter a subject.'
+    },
+    message: {
+      el: messageField,
+      error: document.getElementById('contactMessageError'),
+      required: 'メッセージを入力してください。 / Please enter your message.'
+    }
+  };
 
-    const destination = 'pixilnoise2000@gmail.com';
-    const body =
-      '名前 / 名義: ' + name + '\n' +
-      '返信先MAIL: ' + mail + '\n\n' +
-      message;
+  function getCooldownUntil(){
+    try{
+      const value = Number(localStorage.getItem(cooldownKey) || 0);
+      return Number.isFinite(value) ? value : 0;
+    }catch(_){
+      return 0;
+    }
+  }
 
-    status.textContent = 'メールアプリを開いています…';
-    location.href =
-      'mailto:' + destination +
-      '?subject=' + encodeURIComponent(subj) +
-      '&body=' + encodeURIComponent(body);
+  function setCooldownUntil(value){
+    try{ localStorage.setItem(cooldownKey, String(value)); }catch(_){ }
+  }
+
+  function cooldownRemaining(){
+    return Math.max(0, getCooldownUntil() - Date.now());
+  }
+
+  function updateSubmitState(){
+    const remaining = cooldownRemaining();
+    if(sending){
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-sending');
+      submitBtn.innerHTML = 'SENDING <span>...</span>';
+      return;
+    }
+
+    submitBtn.classList.remove('is-sending');
+    if(remaining > 0){
+      const seconds = Math.ceil(remaining / 1000);
+      submitBtn.disabled = true;
+      submitBtn.classList.add('is-cooldown');
+      submitBtn.innerHTML = `WAIT ${seconds}s <span>⌛</span>`;
+    }else{
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('is-cooldown');
+      submitBtn.innerHTML = defaultButtonHTML;
+    }
+  }
+
+  function startCooldown(){
+    setCooldownUntil(Date.now() + cooldownMs);
+    window.clearInterval(cooldownTimer);
+    updateSubmitState();
+    cooldownTimer = window.setInterval(()=>{
+      updateSubmitState();
+      if(cooldownRemaining() <= 0){
+        window.clearInterval(cooldownTimer);
+        cooldownTimer = 0;
+      }
+    }, 250);
+  }
+
+  function resumeCooldown(){
+    if(cooldownRemaining() <= 0){
+      updateSubmitState();
+      return;
+    }
+    updateSubmitState();
+    cooldownTimer = window.setInterval(()=>{
+      updateSubmitState();
+      if(cooldownRemaining() <= 0){
+        window.clearInterval(cooldownTimer);
+        cooldownTimer = 0;
+      }
+    }, 250);
+  }
+
+  function setSending(value){
+    sending = value;
+    form.querySelectorAll('input, textarea').forEach(field=>{
+      if(field.name !== '_gotcha') field.readOnly = value;
+    });
+    updateSubmitState();
+  }
+
+  function setFieldError(config, message){
+    const hasError = Boolean(message);
+    config.el.classList.toggle('has-error', hasError);
+    config.el.setAttribute('aria-invalid', hasError ? 'true' : 'false');
+    if(config.error){
+      config.error.textContent = message || '';
+      config.error.hidden = !hasError;
+    }
+  }
+
+  function isValidEmail(value){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
+
+  function validateField(key){
+    const config = fields[key];
+    const value = config.el.value.trim();
+    let error = '';
+
+    if(!value){
+      error = config.required;
+    }else if(key === 'email' && !isValidEmail(value)){
+      error = config.invalid;
+    }
+
+    setFieldError(config, error);
+    return !error;
+  }
+
+  function validateAll(){
+    const order = ['name', 'email', 'subject', 'message'];
+    let firstInvalid = null;
+    let valid = true;
+
+    order.forEach(key=>{
+      const ok = validateField(key);
+      if(!ok){
+        valid = false;
+        if(!firstInvalid) firstInvalid = fields[key].el;
+      }
+    });
+
+    if(!valid){
+      status.textContent = '入力内容を確認してください。 / Please check the highlighted fields.';
+      status.classList.add('is-error');
+      status.classList.remove('is-success');
+      if(firstInvalid) firstInvalid.focus();
+    }
+    return valid;
+  }
+
+  Object.keys(fields).forEach(key=>{
+    const config = fields[key];
+    config.el.addEventListener('blur', ()=>validateField(key));
+    config.el.addEventListener('input', ()=>{
+      if(config.el.classList.contains('has-error')) validateField(key);
+    });
   });
+
+  function showSendError(message){
+    status.textContent = message || '送信に失敗しました。 / Failed to send your message.';
+    status.classList.add('is-error');
+    status.classList.remove('is-success');
+  }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    if(sending) return;
+
+    const remaining = cooldownRemaining();
+    if(remaining > 0){
+      const seconds = Math.ceil(remaining / 1000);
+      status.textContent = `再送信は ${seconds} 秒後に可能です。 / You can send again in ${seconds} seconds.`;
+      status.classList.add('is-error');
+      status.classList.remove('is-success');
+      updateSubmitState();
+      return;
+    }
+
+    if(!validateAll()) return;
+
+    setSending(true);
+    status.textContent = '送信しています… / Sending…';
+    status.classList.remove('is-error', 'is-success');
+
+    try{
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if(!response.ok){
+        let serverMessage = '';
+        try{
+          const data = await response.json();
+          if(data && Array.isArray(data.errors) && data.errors.length){
+            serverMessage = data.errors.map(error=>error.message).filter(Boolean).join(' / ');
+          }
+        }catch(_){ }
+        throw new Error(serverMessage || 'Formspree returned an error.');
+      }
+
+      startCooldown();
+      status.textContent = '送信完了しました。 / Message sent successfully.';
+      status.classList.add('is-success');
+      status.classList.remove('is-error');
+      successPanel.hidden = false;
+      requestAnimationFrame(()=>successPanel.classList.add('is-visible'));
+
+      form.querySelectorAll('.contact-field, .contact-submit-row').forEach(el=>{
+        el.classList.add('is-submit-complete');
+      });
+
+      form.reset();
+      Object.values(fields).forEach(config=>setFieldError(config, ''));
+    }catch(error){
+      console.error('Contact form error:', error);
+      showSendError('送信に失敗しました。通信環境を確認して、もう一度お試しください。 / Failed to send. Please check your connection and try again.');
+    }finally{
+      setSending(false);
+    }
+  });
+
+  if(newMessageBtn){
+    newMessageBtn.addEventListener('click', ()=>{
+      successPanel.classList.remove('is-visible');
+      window.setTimeout(()=>{ successPanel.hidden = true; }, 180);
+      form.querySelectorAll('.contact-field, .contact-submit-row').forEach(el=>{
+        el.classList.remove('is-submit-complete');
+      });
+      const remaining = cooldownRemaining();
+      if(remaining > 0){
+        const seconds = Math.ceil(remaining / 1000);
+        status.textContent = `再送信は ${seconds} 秒後に可能です。 / You can send again in ${seconds} seconds.`;
+      }else{
+        status.textContent = 'このページから直接送信できます。 / You can send directly from this page.';
+      }
+      status.classList.remove('is-error', 'is-success');
+      if(preset) subject.value = preset;
+      nameField.focus();
+      updateSubmitState();
+    });
+  }
+
+  resumeCooldown();
 })();
 </script>
 
