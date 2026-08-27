@@ -18,7 +18,7 @@
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <!-- OGP / FAVICON END -->
-</head><body class="page-ready"><div class="page-transition"></div><div class="stars" id="stars"></div><div class="cursor-glow" id="cursorGlow"></div><div class="noise"></div><header class="site-header">
+</head><body class="page-ready release-page"><div class="page-transition"></div><div class="stars" id="stars"></div><div class="cursor-glow" id="cursorGlow"></div><div class="noise"></div><header class="site-header">
 <div class="brand-area">
   <a class="brand" href="index.html"><img class="logo" src="assets_logo.png" alt="pixilnoise"></a>
   <div class="social-links" aria-label="pixilnoise links">
@@ -486,6 +486,14 @@ document.querySelectorAll('.digital').forEach(el=>{
     });
   },{threshold:.12, rootMargin:'0px 0px -7% 0px'});
   items.forEach(el=>io.observe(el));
+
+  // RELEASE mobile safety:
+  // Nested blur-based reveal effects can remain blurred on some mobile browsers.
+  if(document.body.classList.contains('release-page') && window.matchMedia('(max-width:700px)').matches){
+    document.querySelectorAll('.release-library.reveal-on-scroll, .release-library .reveal-on-scroll').forEach(el=>{
+      el.classList.add('is-visible');
+    });
+  }
 })();
 </script>
 
@@ -498,6 +506,7 @@ document.querySelectorAll('.digital').forEach(el=>{
   const cards = Array.from(grid.querySelectorAll('.release-library-card'));
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let filterTimer = 0;
+  let filterFailsafe = 0;
   let filterToken = 0;
 
   function setVisibility(filter){
@@ -512,6 +521,7 @@ document.querySelectorAll('.digital').forEach(el=>{
   function applyFilter(filter, animate = true){
     const token = ++filterToken;
     clearTimeout(filterTimer);
+    clearTimeout(filterFailsafe);
 
     if(!animate || reduceMotion){
       grid.classList.remove('is-filter-fading');
@@ -522,6 +532,11 @@ document.querySelectorAll('.digital').forEach(el=>{
     // Quickly hide the entire grid first, then change the layout while invisible.
     // This avoids the visible "snap" when cards are removed/added.
     grid.classList.add('is-filter-fading');
+
+    // Never let the temporary fade state remain stuck.
+    filterFailsafe = window.setTimeout(()=>{
+      grid.classList.remove('is-filter-fading');
+    }, 420);
 
     filterTimer = window.setTimeout(()=>{
       if(token !== filterToken) return;

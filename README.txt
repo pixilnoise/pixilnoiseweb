@@ -197,3 +197,13 @@ PIXILNOISE PERSONAL SITE v47 CONTACT VALIDATION
   second or later message directly from the user's own email account.
 - Added direct mail link to pixilnoise2000@gmail.com in the success panel.
 - Existing Formspree endpoint, OGP, favicon, REQUEST subject preset, and site UI are preserved.
+
+
+PIXILNOISE PERSONAL SITE v48 MOBILE RELEASE FIX
+===============================================
+- Fixed RELEASE archive remaining blurred while scrolling on smartphone layouts.
+- RELEASE archive blur effects are disabled at <=700px.
+- RELEASE archive controls/cards are immediately revealed on mobile as a browser safety measure.
+- Added a fail-safe that clears the temporary filter fade state after 420ms.
+- Desktop animations are unchanged.
+- Existing CONTACT/Formspree, cooldown, OGP, favicon and release features are preserved.

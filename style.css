@@ -2917,3 +2917,28 @@ body.page-ready{
   .contact-second-message-note b{font-size:11px}
   .contact-second-message-note small{font-size:9px}
 }
+
+
+/* ===== v48: RELEASE mobile blur fix ===== */
+@media(max-width:700px){
+  .release-page .release-library.reveal-on-scroll,
+  .release-page .release-library .reveal-on-scroll{
+    filter:none !important;
+    transition-delay:0s !important;
+  }
+
+  .release-page .release-library.reveal-on-scroll.is-visible,
+  .release-page .release-library .reveal-on-scroll.is-visible{
+    filter:none !important;
+  }
+
+  .release-page .release-library-grid,
+  .release-page .release-library-grid.is-filter-fading{
+    filter:none !important;
+  }
+
+  .release-page .release-library-card{
+    backface-visibility:visible;
+    -webkit-backface-visibility:visible;
+  }
+}
