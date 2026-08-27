@@ -44,3 +44,10 @@ PIXILNOISE PERSONAL SITE v35 GENRE FIX
 - Updated 欠色レコード genre display beside the release date:
   VOCAL MELODIC POP
 - Applied on HOME and RELEASE pages.
+
+
+PIXILNOISE PERSONAL SITE v36 OFFICIAL URL
+=========================================
+- Updated LICENSE credit template official site URL to:
+  https://pixilnoise.github.io/pixilnoiseweb/index.html
+- Updated the note below the credit template to match the current public URL.
