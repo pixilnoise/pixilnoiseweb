@@ -2182,3 +2182,95 @@ body.page-ready{
   .jacket-ui-frame .jacket-ui-code{font-size:5px;left:7px;top:7px}
   .hero-latest-thumb{padding:4px !important}
 }
+
+
+/* ===== v37: RELEASE sorting controls ===== */
+.release-sort-wrap{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  margin:-8px 0 24px;
+  padding:12px 14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(4,8,14,.46);
+}
+.release-sort-label{
+  flex:0 0 auto;
+  min-width:72px;
+  padding-right:14px;
+  border-right:1px solid rgba(255,255,255,.14);
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.release-sort-label span{
+  color:#d7dee9;
+  font-size:10px;
+  letter-spacing:.16em;
+}
+.release-sort-label small{
+  color:#566276;
+  font-size:7px;
+  letter-spacing:.12em;
+}
+.release-sort-bar{
+  min-width:0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+.release-sort-btn{
+  border:1px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.018);
+  color:#7f8b9e;
+  min-height:32px;
+  padding:8px 11px;
+  font:300 9px/1.2 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.075em;
+  cursor:pointer;
+  transition:
+    color .22s ease,
+    border-color .22s ease,
+    background .22s ease,
+    transform .22s ease;
+}
+.release-sort-btn:hover{
+  color:#edf2f7;
+  border-color:rgba(255,255,255,.38);
+  background:rgba(255,255,255,.035);
+  transform:translateY(-1px);
+}
+.release-sort-btn.active{
+  color:#05080d;
+  background:#e9eef5;
+  border-color:#fff;
+}
+@media(max-width:760px){
+  .release-sort-wrap{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:10px;
+    padding:12px;
+  }
+  .release-sort-label{
+    width:100%;
+    min-width:0;
+    padding:0 0 9px;
+    border-right:0;
+    border-bottom:1px solid rgba(255,255,255,.12);
+    flex-direction:row;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .release-sort-bar{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .release-sort-btn{
+    width:100%;
+  }
+}
+@media(max-width:430px){
+  .release-sort-bar{grid-template-columns:1fr}
+}

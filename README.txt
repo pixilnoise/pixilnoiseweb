@@ -51,3 +51,21 @@ PIXILNOISE PERSONAL SITE v36 OFFICIAL URL
 - Updated LICENSE credit template official site URL to:
   https://pixilnoise.github.io/pixilnoiseweb/index.html
 - Updated the note below the credit template to match the current public URL.
+
+
+PIXILNOISE PERSONAL SITE v37 RELEASE SORT
+=========================================
+Added RELEASE sorting controls:
+- BPM ascending / descending
+- Release date newest / oldest
+- Track length longest / shortest
+
+Notes:
+- Genre filtering remains available and works together with sorting.
+- COMING SOON placeholders always stay after actual releases.
+- Sort metadata is stored on each release card:
+  data-bpm="224"
+  data-date="2026-08-21"
+  data-duration="seconds"
+- 欠色レコード has BPM/date set. Track duration is intentionally left blank
+  until an exact duration value is supplied, so no incorrect time is published.

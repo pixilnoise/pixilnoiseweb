@@ -57,8 +57,23 @@
     <button class="release-filter-btn" type="button" data-filter="experimental">EXPERIMENTAL / くせもの</button>
   </div>
 
+  <div class="release-sort-wrap reveal-on-scroll" aria-label="Release sorting">
+    <div class="release-sort-label">
+      <span>SORT</span>
+      <small>ORDER / DATA</small>
+    </div>
+    <div class="release-sort-bar">
+      <button class="release-sort-btn" type="button" data-sort="bpm-asc">BPM ↑</button>
+      <button class="release-sort-btn" type="button" data-sort="bpm-desc">BPM ↓</button>
+      <button class="release-sort-btn active" type="button" data-sort="date-desc">RELEASE / NEW</button>
+      <button class="release-sort-btn" type="button" data-sort="date-asc">RELEASE / OLD</button>
+      <button class="release-sort-btn" type="button" data-sort="duration-desc">LENGTH / LONG</button>
+      <button class="release-sort-btn" type="button" data-sort="duration-asc">LENGTH / SHORT</button>
+    </div>
+  </div>
+
   <div class="release-library-grid" id="releaseGrid">
-    <a class="release-library-card reveal-on-scroll card-float release-external-link" data-categories="melodic vocal pop" href="https://youtu.be/y5rzn70TR84" target="_blank" rel="noopener noreferrer" aria-label="欠色レコードをYouTubeで聴く">
+    <a class="release-library-card reveal-on-scroll card-float release-external-link" data-categories="melodic vocal pop" data-bpm="224" data-date="2026-08-21" data-duration="" href="https://youtu.be/y5rzn70TR84" target="_blank" rel="noopener noreferrer" aria-label="欠色レコードをYouTubeで聴く">
       <div class="release-library-art release-library-art-image">
         <div class="jacket-ui-frame">
         <span class="jacket-ui-code" aria-hidden="true">ARTWORK // 01</span>
@@ -81,7 +96,7 @@
       </div>
     </a>
 
-    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-categories="hard">
+    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-placeholder="true" data-bpm="" data-date="" data-duration="" data-categories="hard">
       <div class="release-library-art">
         <div class="release-art-inner">
           <span>H</span>
@@ -99,7 +114,7 @@
       </div>
     </article>
 
-    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-categories="vocal pop">
+    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-placeholder="true" data-bpm="" data-date="" data-duration="" data-categories="vocal pop">
       <div class="release-library-art">
         <div class="release-art-inner">
           <span>V</span>
@@ -117,7 +132,7 @@
       </div>
     </article>
 
-    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-categories="pop">
+    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-placeholder="true" data-bpm="" data-date="" data-duration="" data-categories="pop">
       <div class="release-library-art">
         <div class="release-art-inner">
           <span>P</span>
@@ -136,7 +151,7 @@
     </article>
 
     
-    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-categories="remix">
+    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-placeholder="true" data-bpm="" data-date="" data-duration="" data-categories="remix">
       <div class="release-library-art">
         <div class="release-art-inner">
           <span>R</span>
@@ -154,7 +169,7 @@
       </div>
     </article>
 
-    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-categories="experimental">
+    <article class="release-library-card release-placeholder reveal-on-scroll card-float" data-placeholder="true" data-bpm="" data-date="" data-duration="" data-categories="experimental">
       <div class="release-library-art">
         <div class="release-art-inner">
           <span>X</span>
@@ -291,6 +306,92 @@ document.querySelectorAll('.digital').forEach(el=>{
 })();
 </script>
 
+
+
+<script>
+(function(){
+  const grid = document.getElementById('releaseGrid');
+  const buttons = document.querySelectorAll('.release-sort-btn');
+  if(!grid || !buttons.length) return;
+
+  const originalOrder = new Map(
+    Array.from(grid.querySelectorAll('.release-library-card')).map((card, index)=>[card, index])
+  );
+
+  function numericValue(card, key){
+    const raw = card.dataset[key];
+    if(raw === undefined || raw === null || raw === '') return null;
+    const value = Number(raw);
+    return Number.isFinite(value) ? value : null;
+  }
+
+  function dateValue(card){
+    const raw = card.dataset.date;
+    if(!raw) return null;
+    const value = Date.parse(raw + 'T00:00:00');
+    return Number.isFinite(value) ? value : null;
+  }
+
+  function compareNullable(a, b, direction){
+    const aMissing = a === null;
+    const bMissing = b === null;
+    if(aMissing && bMissing) return 0;
+    if(aMissing) return 1;
+    if(bMissing) return -1;
+    return direction === 'asc' ? a - b : b - a;
+  }
+
+  function sortCards(mode){
+    const cards = Array.from(grid.querySelectorAll('.release-library-card'));
+
+    cards.sort((a,b)=>{
+      const ap = a.dataset.placeholder === 'true';
+      const bp = b.dataset.placeholder === 'true';
+
+      // COMING SOON placeholders always stay after real releases.
+      if(ap !== bp) return ap ? 1 : -1;
+
+      let result = 0;
+      switch(mode){
+        case 'bpm-asc':
+          result = compareNullable(numericValue(a,'bpm'), numericValue(b,'bpm'), 'asc');
+          break;
+        case 'bpm-desc':
+          result = compareNullable(numericValue(a,'bpm'), numericValue(b,'bpm'), 'desc');
+          break;
+        case 'date-asc':
+          result = compareNullable(dateValue(a), dateValue(b), 'asc');
+          break;
+        case 'date-desc':
+          result = compareNullable(dateValue(a), dateValue(b), 'desc');
+          break;
+        case 'duration-asc':
+          result = compareNullable(numericValue(a,'duration'), numericValue(b,'duration'), 'asc');
+          break;
+        case 'duration-desc':
+          result = compareNullable(numericValue(a,'duration'), numericValue(b,'duration'), 'desc');
+          break;
+      }
+
+      // Stable fallback keeps cards predictable when values are identical/missing.
+      return result || (originalOrder.get(a) - originalOrder.get(b));
+    });
+
+    cards.forEach(card=>grid.appendChild(card));
+  }
+
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      sortCards(btn.dataset.sort);
+    });
+  });
+
+  // Default: newest releases first.
+  sortCards('date-desc');
+})();
+</script>
 
 <script>
 (function(){
