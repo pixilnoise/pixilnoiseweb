@@ -2942,3 +2942,122 @@ body.page-ready{
     -webkit-backface-visibility:visible;
   }
 }
+
+
+/* ===== v49: Undertale collaborator social links ===== */
+.release-card-with-links{
+  position:relative;
+}
+
+.release-card-with-links .release-card-primary-link{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:block;
+  cursor:pointer;
+}
+
+.release-card-with-links .release-open-mark,
+.release-card-with-links .release-type-badges{
+  pointer-events:none;
+}
+
+.release-collab-links{
+  position:relative;
+  z-index:12;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-top:12px;
+  padding-top:10px;
+  border-top:1px solid rgba(255,255,255,.12);
+}
+
+.release-collab-links-name{
+  min-width:0;
+  color:#aab5c4;
+  font-size:9px;
+  line-height:1.45;
+  letter-spacing:.04em;
+}
+
+.release-collab-links-name small{
+  color:#657184;
+  font-size:7px;
+  letter-spacing:.12em;
+  white-space:nowrap;
+}
+
+.release-collab-links-actions{
+  display:flex;
+  flex:0 0 auto;
+  align-items:center;
+  gap:6px;
+}
+
+.release-collab-link{
+  position:relative;
+  z-index:13;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-width:38px;
+  height:28px;
+  padding:0 7px;
+  border:1px solid rgba(255,255,255,.22);
+  background:rgba(4,8,14,.82);
+  color:#cbd4df;
+  text-decoration:none;
+  font-size:8px;
+  line-height:1;
+  letter-spacing:.08em;
+  transition:
+    border-color .18s ease,
+    background .18s ease,
+    color .18s ease,
+    transform .18s ease;
+}
+
+.release-collab-link:hover{
+  border-color:rgba(255,255,255,.68);
+  background:rgba(235,241,248,.94);
+  color:#070b11;
+  transform:translateY(-1px);
+}
+
+.release-collab-link svg{
+  width:12px;
+  height:12px;
+  flex:0 0 auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.5;
+}
+
+.release-collab-link.is-youtube svg path{
+  fill:currentColor;
+  stroke:none;
+}
+
+.release-collab-link .collab-x-svg{
+  stroke-width:1.7;
+}
+
+@media(max-width:700px){
+  .release-collab-links{
+    align-items:flex-start;
+    gap:8px;
+  }
+
+  .release-collab-links-name{
+    font-size:8px;
+  }
+
+  .release-collab-link{
+    min-width:36px;
+    height:27px;
+    padding:0 6px;
+  }
+}

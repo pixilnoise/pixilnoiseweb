@@ -207,3 +207,14 @@ PIXILNOISE PERSONAL SITE v48 MOBILE RELEASE FIX
 - Added a fail-safe that clears the temporary filter fade state after 420ms.
 - Desktop animations are unchanged.
 - Existing CONTACT/Formspree, cooldown, OGP, favicon and release features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v49 COLLAB LINKS
+=========================================
+- Added NekoZe / KyphoXis collaborator links to the Undertale remix card.
+- YouTube: https://www.youtube.com/@KyphoX1s
+- X: https://x.com/_4vvay
+- Added clearly labeled YT and X icon buttons.
+- Added the same collaborator-link UI on HOME and RELEASE.
+- Main card click still opens the original Undertale remix video.
+- Existing v48 mobile RELEASE blur fix, Formspree CONTACT, OGP and favicon are preserved.
