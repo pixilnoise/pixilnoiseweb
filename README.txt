@@ -159,3 +159,16 @@ PIXILNOISE PERSONAL SITE v44 AUTHOR FIX
 ========================================
 - Updated Undertale - Battle Against A True Hero artist credit to:
   pixilnoise x NekoZe / KyphoXis
+
+
+PIXILNOISE PERSONAL SITE v45 OGP / FAVICON
+==========================================
+- Added OGP image: ogp.jpg (1200 x 630)
+- Added favicon: favicon.png (300 x 300)
+- Added Open Graph metadata to all main pages.
+- Added X/Twitter large-card metadata to all main pages.
+- Added favicon + Apple touch icon metadata.
+- Public base URL:
+  https://pixilnoise.github.io/pixilnoiseweb/
+- OGP image URL:
+  https://pixilnoise.github.io/pixilnoiseweb/ogp.jpg
