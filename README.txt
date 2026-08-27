@@ -69,3 +69,93 @@ Notes:
   data-duration="seconds"
 - 欠色レコード has BPM/date set. Track duration is intentionally left blank
   until an exact duration value is supplied, so no incorrect time is published.
+
+
+PIXILNOISE PERSONAL SITE v38 RELEASE DATA
+========================================
+Added:
+- DUBSTOP
+  BPM 229
+  2026/08/27
+  SPEED DUBSTEP / RHYTHM GAME / HARDCORE
+  LENGTH 2:00
+  YouTube: https://youtu.be/JBkb0LcE-eU
+  Artwork: dubstop.jpg
+- 欠色レコード length set to 2:52.
+
+UI changes:
+- Release date and genre are now shown on separate lines.
+- Track length is shown as its own metadata row.
+- Genre filter buttons, sort controls, and release metadata text are larger for readability.
+- HOME latest release is synced to DUBSTOP.
+- HOME latest works now shows DUBSTOP and 欠色レコード.
+
+
+PIXILNOISE PERSONAL SITE v39 RELEASE FIX
+========================================
+Fixes:
+- BPM ↑ now sorts from high BPM to low BPM.
+- BPM ↓ now sorts from low BPM to high BPM.
+- Unreleased/COMING SOON cards now use the same metadata row structure and card height as released works.
+- Added subtle intermittent noise/glitch effects to unreleased cards only.
+- Reduced-motion users do not receive the noise animation.
+
+
+PIXILNOISE PERSONAL SITE v40 NOISE BOOST
+========================================
+- Increased COMING SOON glitch/noise frequency.
+- Increased scanline/noise intensity.
+- Added more frequent horizontal glitch flashes.
+- Added stronger text flicker and occasional artwork jitter.
+- Reduced-motion preference still disables these animations.
+
+
+PIXILNOISE PERSONAL SITE v41 SMOOTH SORT
+========================================
+- RELEASE cards now use FLIP-style movement when sorting.
+- Cards slide smoothly from the old grid position to the new one instead of jumping instantly.
+- Motion uses a soft cubic-bezier easing and ~560ms duration.
+- Initial page load does not animate the default order.
+- prefers-reduced-motion disables the movement animation.
+
+
+PIXILNOISE PERSONAL SITE v42 RELEASE BATCH
+==========================================
+Added to RELEASE:
+- Parasite World D
+- Dyxviaphobia [half tempo remix]
+- Fragments of Salvation -2026 remix
+- Undertale - Battle Against A True Hero
+- 星骸創世アルカディア
+
+All entries include BPM, date, genre, length, artwork, destination link,
+and sorting metadata.
+
+Release-type icon badges:
+- ALBUM
+- REMIX
+- COLLAB
+
+Applied badges:
+- Dyxviaphobia [half tempo remix] -> REMIX
+- Fragments of Salvation -2026 remix -> REMIX
+- Undertale - Battle Against A True Hero -> COLLAB + REMIX
+- 星骸創世アルカディア -> ALBUM
+
+HOME latest works now shows the four newest released works.
+
+
+PIXILNOISE PERSONAL SITE v43 FILTER FIX
+=======================================
+- Added ALBUM and COLLAB to RELEASE category filters.
+- 星骸創世アルカディア -> ALBUM filter.
+- Undertale - Battle Against A True Hero -> COLLAB filter.
+- Category filtering now performs a quick grid fade-out, updates the card layout
+  while hidden, then quickly fades the settled grid back in.
+- Existing smooth FLIP animation for sort controls is preserved.
+
+
+PIXILNOISE PERSONAL SITE v44 AUTHOR FIX
+========================================
+- Updated Undertale - Battle Against A True Hero artist credit to:
+  pixilnoise x NekoZe / KyphoXis

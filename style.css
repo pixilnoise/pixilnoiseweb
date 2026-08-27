@@ -2274,3 +2274,461 @@ body.page-ready{
 @media(max-width:430px){
   .release-sort-bar{grid-template-columns:1fr}
 }
+
+
+/* ===== v38: RELEASE readability + expanded song metadata ===== */
+.release-filter-btn{
+  font-size:12px !important;
+  padding:11px 15px !important;
+  line-height:1.25 !important;
+}
+.release-sort-label span{
+  font-size:12px !important;
+}
+.release-sort-label small{
+  font-size:9px !important;
+}
+.release-sort-btn{
+  font-size:11px !important;
+  min-height:36px !important;
+  padding:9px 13px !important;
+}
+.release-library-meta-top{
+  gap:6px !important;
+  font-size:11px !important;
+  line-height:1.55 !important;
+}
+.release-library-meta-top .release-bpm,
+.release-library-meta-top .release-length{
+  color:#b1bac8;
+  font-size:12px !important;
+  letter-spacing:.08em;
+}
+.release-library-meta-top .release-date{
+  color:#8f9bad;
+  font-size:11px;
+}
+.release-library-meta-top .release-genre{
+  color:#7f8c9f;
+  font-size:11px;
+  line-height:1.55;
+  letter-spacing:.035em;
+}
+.release-library-info h3{
+  font-size:19px !important;
+  margin-top:13px !important;
+}
+.release-library-info p{
+  font-size:12px !important;
+}
+@media(max-width:700px){
+  .release-filter-btn{
+    font-size:11px !important;
+  }
+  .release-sort-btn{
+    font-size:11px !important;
+  }
+  .release-library-meta-top{
+    font-size:11px !important;
+  }
+  .release-library-info h3{
+    font-size:17px !important;
+  }
+}
+
+
+/* ===== v39: RELEASE fix / placeholder parity / intermittent noise ===== */
+
+/* Keep all cards aligned even when placeholder metadata is sparse. */
+.release-library-grid{
+  align-items:stretch;
+}
+.release-library-card{
+  height:100%;
+  display:flex;
+  flex-direction:column;
+}
+.release-library-card .release-library-info{
+  flex:1 1 auto;
+  min-height:174px;
+}
+.release-placeholder .release-library-info{
+  min-height:174px;
+}
+
+/* Unreleased cards: restrained intermittent signal/noise treatment. */
+.release-placeholder{
+  position:relative;
+  isolation:isolate;
+}
+.release-placeholder::before,
+.release-placeholder::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  z-index:4;
+}
+.release-placeholder::before{
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.055) 0 1px,
+      transparent 1px 4px
+    );
+  mix-blend-mode:screen;
+  animation:placeholderNoise 8.7s steps(2,end) infinite;
+}
+.release-placeholder::after{
+  background:
+    linear-gradient(90deg,
+      transparent 0 8%,
+      rgba(220,232,255,.11) 8% 10%,
+      transparent 10% 46%,
+      rgba(255,255,255,.06) 46% 47%,
+      transparent 47% 100%);
+  transform:translateX(-3%);
+  animation:placeholderGlitch 11.3s steps(2,end) infinite;
+}
+
+@keyframes placeholderNoise{
+  0%, 68%, 72%, 100%{opacity:0}
+  69%{opacity:.18; transform:translateY(0)}
+  69.6%{opacity:.08; transform:translateY(-2px)}
+  70.2%{opacity:.22; transform:translateY(1px)}
+  71%{opacity:.05; transform:translateY(0)}
+}
+@keyframes placeholderGlitch{
+  0%, 78%, 82%, 100%{opacity:0; transform:translateX(-3%)}
+  78.6%{opacity:.20; transform:translateX(1.5%)}
+  79.2%{opacity:.08; transform:translateX(-1%)}
+  80%{opacity:.15; transform:translateX(.5%)}
+  81%{opacity:0; transform:translateX(0)}
+}
+
+/* Slight internal text flicker on COMING SOON only. */
+.release-placeholder h3{
+  animation:placeholderTextNoise 13.7s steps(2,end) infinite;
+}
+@keyframes placeholderTextNoise{
+  0%, 84%, 88%, 100%{opacity:1; transform:none; text-shadow:none}
+  84.5%{opacity:.72; transform:translateX(1px); text-shadow:-1px 0 rgba(255,255,255,.18)}
+  85.2%{opacity:1; transform:translateX(-1px)}
+  86%{opacity:.82; transform:none}
+  87%{opacity:1; transform:none; text-shadow:none}
+}
+
+@media(max-width:700px){
+  .release-library-card .release-library-info,
+  .release-placeholder .release-library-info{
+    min-height:166px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .release-placeholder::before,
+  .release-placeholder::after,
+  .release-placeholder h3{
+    animation:none !important;
+  }
+}
+
+
+/* ===== v40: stronger / more frequent COMING SOON noise ===== */
+.release-placeholder::before{
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.09) 0 1px,
+      transparent 1px 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(190,215,255,.035) 0 1px,
+      transparent 1px 5px
+    );
+  mix-blend-mode:screen;
+  animation:placeholderNoiseBoost 4.6s steps(2,end) infinite !important;
+}
+.release-placeholder::after{
+  background:
+    linear-gradient(90deg,
+      transparent 0 6%,
+      rgba(225,235,255,.20) 6% 9%,
+      transparent 9% 30%,
+      rgba(255,255,255,.10) 30% 32%,
+      transparent 32% 63%,
+      rgba(185,210,255,.14) 63% 66%,
+      transparent 66% 100%);
+  mix-blend-mode:screen;
+  animation:placeholderGlitchBoost 6.2s steps(2,end) infinite !important;
+}
+.release-placeholder h3{
+  animation:placeholderTextNoiseBoost 7.1s steps(2,end) infinite !important;
+}
+.release-placeholder .release-art-inner{
+  animation:placeholderArtJitter 8.3s steps(2,end) infinite;
+}
+
+@keyframes placeholderNoiseBoost{
+  0%, 43%, 48%, 71%, 76%, 100%{
+    opacity:0;
+    transform:translate(0,0);
+  }
+  44%{
+    opacity:.34;
+    transform:translate(0,-2px);
+  }
+  45%{
+    opacity:.15;
+    transform:translate(1px,2px);
+  }
+  46%{
+    opacity:.42;
+    transform:translate(-1px,0);
+  }
+  47%{
+    opacity:.08;
+    transform:translate(0,1px);
+  }
+  72%{
+    opacity:.26;
+    transform:translate(0,1px);
+  }
+  73%{
+    opacity:.38;
+    transform:translate(0,-1px);
+  }
+  74%{
+    opacity:.12;
+    transform:translate(1px,0);
+  }
+  75%{
+    opacity:.30;
+    transform:translate(-1px,1px);
+  }
+}
+
+@keyframes placeholderGlitchBoost{
+  0%, 24%, 29%, 55%, 60%, 82%, 87%, 100%{
+    opacity:0;
+    transform:translateX(0);
+  }
+  25%{
+    opacity:.28;
+    transform:translateX(3%);
+  }
+  26%{
+    opacity:.12;
+    transform:translateX(-2%);
+  }
+  27%{
+    opacity:.36;
+    transform:translateX(1.5%);
+  }
+  28%{
+    opacity:.08;
+    transform:translateX(0);
+  }
+  56%{
+    opacity:.22;
+    transform:translateX(-3%);
+  }
+  57%{
+    opacity:.34;
+    transform:translateX(2%);
+  }
+  58%{
+    opacity:.10;
+    transform:translateX(-1%);
+  }
+  59%{
+    opacity:.26;
+    transform:translateX(0);
+  }
+  83%{
+    opacity:.30;
+    transform:translateX(2.5%);
+  }
+  84%{
+    opacity:.12;
+    transform:translateX(-2.5%);
+  }
+  85%{
+    opacity:.38;
+    transform:translateX(1%);
+  }
+  86%{
+    opacity:.08;
+    transform:translateX(0);
+  }
+}
+
+@keyframes placeholderTextNoiseBoost{
+  0%, 36%, 40%, 68%, 72%, 91%, 94%, 100%{
+    opacity:1;
+    transform:none;
+    text-shadow:none;
+  }
+  37%{
+    opacity:.58;
+    transform:translateX(2px);
+    text-shadow:-2px 0 rgba(255,255,255,.22), 2px 0 rgba(160,195,255,.12);
+  }
+  38%{
+    opacity:.95;
+    transform:translateX(-2px);
+  }
+  39%{
+    opacity:.72;
+    transform:translateX(1px);
+  }
+  69%{
+    opacity:.64;
+    transform:translateX(-1px);
+    text-shadow:1px 0 rgba(255,255,255,.18);
+  }
+  70%{
+    opacity:1;
+    transform:translateX(2px);
+  }
+  71%{
+    opacity:.78;
+    transform:none;
+  }
+  92%{
+    opacity:.55;
+    transform:translateX(2px);
+  }
+  93%{
+    opacity:1;
+    transform:translateX(-1px);
+  }
+}
+
+@keyframes placeholderArtJitter{
+  0%, 51%, 55%, 79%, 82%, 100%{transform:rotate(45deg) translate(0,0)}
+  52%{transform:rotate(45deg) translate(2px,-1px)}
+  53%{transform:rotate(45deg) translate(-2px,1px)}
+  54%{transform:rotate(45deg) translate(1px,0)}
+  80%{transform:rotate(45deg) translate(-1px,-1px)}
+  81%{transform:rotate(45deg) translate(2px,1px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .release-placeholder::before,
+  .release-placeholder::after,
+  .release-placeholder h3,
+  .release-placeholder .release-art-inner{
+    animation:none !important;
+  }
+}
+
+
+/* ===== v41: smooth FLIP movement when RELEASE cards reorder ===== */
+.release-library-grid{
+  position:relative;
+}
+.release-library-card{
+  backface-visibility:hidden;
+  transform:translateZ(0);
+}
+@media(prefers-reduced-motion:reduce){
+  .release-library-card{
+    transform:none;
+  }
+}
+
+
+/* ===== v42: RELEASE type badges / album-remix-collab ===== */
+.release-type-badges{
+  position:absolute;
+  top:18px;
+  right:18px;
+  z-index:7;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:6px;
+  pointer-events:none;
+}
+.release-type-badge{
+  min-height:27px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 8px 5px 6px;
+  border:1px solid rgba(255,255,255,.50);
+  background:rgba(2,5,10,.84);
+  color:#eef3fa;
+  backdrop-filter:blur(6px);
+  font-size:8px;
+  line-height:1;
+  letter-spacing:.11em;
+  box-shadow:0 4px 14px rgba(0,0,0,.24);
+}
+.release-type-badge svg{
+  width:14px;
+  height:14px;
+  flex:0 0 auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.45;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.release-type-badge.is-album{
+  border-color:rgba(221,229,242,.72);
+}
+.release-type-badge.is-remix{
+  border-color:rgba(185,203,235,.58);
+}
+.release-type-badge.is-collab{
+  border-color:rgba(225,225,240,.64);
+}
+.release-library-card:hover .release-type-badge{
+  background:rgba(8,13,22,.94);
+  border-color:rgba(255,255,255,.82);
+}
+@media(max-width:700px){
+  .release-type-badges{
+    top:14px;
+    right:14px;
+    gap:5px;
+  }
+  .release-type-badge{
+    min-height:25px;
+    font-size:7px;
+    padding:5px 7px 5px 6px;
+  }
+  .release-type-badge svg{
+    width:13px;
+    height:13px;
+  }
+}
+
+
+/* ===== v43: ALBUM/COLLAB filters + quick fade filtering ===== */
+.release-library-grid{
+  transition:
+    opacity .145s cubic-bezier(.4,0,.2,1),
+    filter .145s cubic-bezier(.4,0,.2,1),
+    transform .145s cubic-bezier(.4,0,.2,1);
+}
+.release-library-grid.is-filter-fading{
+  opacity:0;
+  filter:blur(1.5px);
+  transform:translateY(3px);
+  pointer-events:none;
+}
+@media(prefers-reduced-motion:reduce){
+  .release-library-grid{
+    transition:none !important;
+  }
+  .release-library-grid.is-filter-fading{
+    opacity:1;
+    filter:none;
+    transform:none;
+  }
+}
