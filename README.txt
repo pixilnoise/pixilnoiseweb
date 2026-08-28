@@ -18,7 +18,7 @@ Applied:
    - 2026/08/21
    - pixilnoise feat. 初音ミク
    - MELODIC / VOCAL / POP
-   - Artwork: kesshoku_record.jpg
+   - Artwork: assets/releases/kesshoku_record.jpg
    - Link: https://youtu.be/y5rzn70TR84
    The HOME latest card, HOME release card, and RELEASE archive card open YouTube.
 8. Added a dedicated mobile MENU overlay for screens <= 900px.
@@ -80,7 +80,7 @@ Added:
   SPEED DUBSTEP / RHYTHM GAME / HARDCORE
   LENGTH 2:00
   YouTube: https://youtu.be/JBkb0LcE-eU
-  Artwork: dubstop.jpg
+  Artwork: assets/releases/dubstop.jpg
 - 欠色レコード length set to 2:52.
 
 UI changes:
@@ -163,15 +163,15 @@ PIXILNOISE PERSONAL SITE v44 AUTHOR FIX
 
 PIXILNOISE PERSONAL SITE v45 OGP / FAVICON
 ==========================================
-- Added OGP image: ogp.jpg (1200 x 630)
-- Added favicon: favicon.png (300 x 300)
+- Added OGP image: assets/branding/ogp.jpg (1200 x 630)
+- Added favicon: assets/branding/favicon.png (300 x 300)
 - Added Open Graph metadata to all main pages.
 - Added X/Twitter large-card metadata to all main pages.
 - Added favicon + Apple touch icon metadata.
 - Public base URL:
   https://pixilnoise.github.io/pixilnoiseweb/
 - OGP image URL:
-  https://pixilnoise.github.io/pixilnoiseweb/ogp.jpg
+  https://pixilnoise.github.io/pixilnoiseweb/assets/branding/ogp.jpg
 
 
 PIXILNOISE PERSONAL SITE v46 FORMSPREE CONTACT
@@ -252,3 +252,21 @@ PIXILNOISE PERSONAL SITE v51 ACHIEVEMENT FIX
 - Added a direct YouTube link from the achievement detail.
 - University name is intentionally not specified.
 - All v50 release cards and existing site features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v52 ASSET ORGANIZATION
+===============================================
+v51 content/design/functionality preserved. Asset paths only were reorganized.
+
+Folder structure:
+- assets/branding/
+  - assets_logo.png
+  - assets_icon.png
+  - favicon.png
+  - ogp.jpg
+- assets/releases/
+  - all release artwork files
+
+All HTML references, favicon references, and absolute OGP image URLs were updated
+to the new folder paths. No page design, text, animations, filters, sorting,
+Formspree behavior, release data, or other site functionality was intentionally changed.
