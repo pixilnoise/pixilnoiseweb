@@ -1,4 +1,13 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>pixilnoise // CONTACT</title><link rel="stylesheet" href="style.css">
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>pixilnoise // CONTACT</title><script>
+(function(){
+  try{
+    document.documentElement.dataset.theme =
+      localStorage.getItem('pixilnoise-theme-v2') === 'light' ? 'light' : 'dark';
+  }catch(_){
+    document.documentElement.dataset.theme = 'dark';
+  }
+})();
+</script><link rel="stylesheet" href="style.css">
 <!-- OGP / FAVICON START -->
 <meta name="description" content="pixilnoise Official Website. Music / Sound Design / Rhythm Game / Releases / Commissions.">
 <meta property="og:title" content="pixilnoise // CONTACT">
@@ -31,7 +40,10 @@
   </div>
 </div><button class="mobile-menu-toggle" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="メニューを開く">
   <span>MENU</span><i></i><i></i>
-</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="active" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><div class="status"><i></i>ONLINE</div></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
+</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="active" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
+  <span class="theme-toggle-track" aria-hidden="true"><i></i></span>
+  <span class="theme-toggle-copy"><b data-theme-label>DARK</b><small>MODE</small></span>
+</button></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
     <div class="mobile-menu-head">
       <span>MENU // NAVIGATION</span>
@@ -144,7 +156,7 @@
 const starLayer=document.getElementById('stars');
 const glow=document.getElementById('cursorGlow');
 const stars=[];
-const count=Math.min(85,Math.max(45,Math.floor(innerWidth/18)));
+const count=Math.min(105,Math.max(55,Math.floor(innerWidth/15)));
 for(let i=0;i<count;i++){
   const s=document.createElement('span');s.className='star';
   const size=Math.random()*2.7+.6;
@@ -517,4 +529,6 @@ document.querySelectorAll('.digital').forEach(el=>{
 })();
 </script>
 
+<div class="theme-glitch-overlay" aria-hidden="true"></div>
+<script src="assets/js/theme.js"></script>
 </body></html>

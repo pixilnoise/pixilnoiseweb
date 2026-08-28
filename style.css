@@ -4352,3 +4352,1078 @@ body.random-boss-active:hover{
     inset:0 !important;
   }
 }
+
+
+/* ===== v62: restore subtle RANDOM SELECT shake =====
+   Reintroduces the pre-lightweight "boss reveal" vibration without touching
+   the v60 glass effect or the v58 BODY/class-collision fix.
+   Uses the independent `translate` property instead of `transform`, so the
+   stable fullscreen layout/compositing rules remain intact.
+*/
+.random-boss-overlay.is-running .random-boss-shell{
+  animation:randomBossScanShake 1.15s steps(1,end) infinite !important;
+  will-change:translate;
+}
+
+@keyframes randomBossScanShake{
+  0%,100%{translate:0 0}
+  12%{translate:-.7px .3px}
+  25%{translate:.6px -.4px}
+  39%{translate:-.4px -.6px}
+  53%{translate:.8px .4px}
+  68%{translate:-.6px .5px}
+  82%{translate:.4px -.3px}
+}
+
+/* Stronger single jolt exactly when TARGET LOCK + glass break lands. */
+.random-boss-overlay.is-impact .random-boss-shell{
+  animation:randomBossGlassJolt .26s steps(1,end) both !important;
+  will-change:translate;
+}
+
+@keyframes randomBossGlassJolt{
+  0%{translate:0 0}
+  12%{translate:-3px 1px}
+  27%{translate:2.5px -1.5px}
+  43%{translate:-2px 1.2px}
+  59%{translate:1.4px -.8px}
+  75%{translate:-.8px .5px}
+  100%{translate:0 0}
+}
+
+/* Tiny result-settle motion after the glass clears. */
+.random-boss-overlay.is-revealed .random-boss-result{
+  animation:randomBossResultSettle .34s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes randomBossResultSettle{
+  0%{translate:0 3px}
+  45%{translate:0 -1px}
+  100%{translate:0 0}
+}
+
+@media(max-width:760px){
+  /* Keep mobile shake restrained. */
+  @keyframes randomBossScanShake{
+    0%,100%{translate:0 0}
+    25%{translate:-.35px .2px}
+    50%{translate:.4px -.2px}
+    75%{translate:-.25px .25px}
+  }
+  @keyframes randomBossGlassJolt{
+    0%{translate:0 0}
+    18%{translate:-1.8px .8px}
+    38%{translate:1.5px -1px}
+    58%{translate:-1px .6px}
+    78%{translate:.6px -.3px}
+    100%{translate:0 0}
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .random-boss-overlay.is-running .random-boss-shell,
+  .random-boss-overlay.is-impact .random-boss-shell,
+  .random-boss-overlay.is-revealed .random-boss-result{
+    animation:none !important;
+    translate:none !important;
+    will-change:auto !important;
+  }
+}
+
+
+/* ===== v63: DARK / LIGHT theme toggle ===== */
+
+/* Header control replacing ONLINE */
+.theme-toggle{
+  flex:0 0 auto;
+  min-width:88px;
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(5,9,15,.74);
+  color:#c7d0dc;
+  cursor:pointer;
+  font:300 9px/1 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.08em;
+  transition:
+    border-color .22s ease,
+    background .22s ease,
+    color .22s ease,
+    transform .22s ease;
+}
+.theme-toggle:hover{
+  border-color:rgba(255,255,255,.52);
+  background:rgba(255,255,255,.035);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.theme-toggle-track{
+  position:relative;
+  width:25px;
+  height:12px;
+  flex:0 0 25px;
+  border:1px solid rgba(255,255,255,.28);
+  background:#02050a;
+}
+.theme-toggle-track i{
+  position:absolute;
+  top:2px;
+  left:2px;
+  width:6px;
+  height:6px;
+  display:block;
+  background:#dce4ef;
+  box-shadow:0 0 7px rgba(225,235,248,.24);
+  transition:
+    left .34s cubic-bezier(.22,1,.36,1),
+    background .22s ease,
+    box-shadow .22s ease;
+}
+.theme-toggle-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:2px;
+  line-height:1;
+}
+.theme-toggle-copy b{
+  font-size:8px;
+  font-weight:300;
+  letter-spacing:.12em;
+}
+.theme-toggle-copy small{
+  color:#596577;
+  font-size:6px;
+  letter-spacing:.14em;
+}
+
+/* Strong but brief glitch transition overlay. */
+.theme-glitch-overlay{
+  position:fixed;
+  inset:0;
+  z-index:20000;
+  pointer-events:none;
+  opacity:0;
+  visibility:hidden;
+  overflow:hidden;
+}
+.theme-glitch-overlay::before,
+.theme-glitch-overlay::after{
+  content:"";
+  position:absolute;
+  inset:-4%;
+  opacity:0;
+}
+.theme-glitch-overlay::before{
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 7px,
+      rgba(255,255,255,.13) 7px 8px,
+      transparent 8px 15px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(235,45,82,.22),
+      transparent 30% 68%,
+      rgba(56,175,214,.22)
+    );
+}
+.theme-glitch-overlay::after{
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0 13%,
+      rgba(255,255,255,.72) 13% 15%,
+      transparent 15% 47%,
+      rgba(30,36,44,.58) 47% 52%,
+      transparent 52% 78%,
+      rgba(255,255,255,.34) 78% 80%,
+      transparent 80%
+    );
+}
+html.theme-switching .theme-glitch-overlay{
+  visibility:visible;
+  animation:themeGlitchBase .62s steps(2,end) both;
+}
+html.theme-switching .theme-glitch-overlay::before{
+  animation:themeGlitchScan .62s steps(2,end) both;
+}
+html.theme-switching .theme-glitch-overlay::after{
+  animation:themeGlitchBands .62s steps(2,end) both;
+}
+html.theme-switching .site-header,
+html.theme-switching main,
+html.theme-switching footer{
+  animation:themeContentGlitch .62s steps(2,end) both;
+}
+
+@keyframes themeGlitchBase{
+  0%{opacity:0}
+  8%{opacity:.16;background:rgba(255,255,255,.04)}
+  16%{opacity:.72;background:rgba(5,8,12,.38)}
+  23%{opacity:.18;background:rgba(255,255,255,.44)}
+  32%{opacity:.66;background:rgba(255,255,255,.13)}
+  44%{opacity:.24;background:rgba(5,8,12,.30)}
+  57%{opacity:.52}
+  72%{opacity:.13}
+  100%{opacity:0}
+}
+@keyframes themeGlitchScan{
+  0%,100%{opacity:0;transform:translateX(0)}
+  12%{opacity:.72;transform:translateX(-8px)}
+  19%{opacity:.18;transform:translateX(10px)}
+  29%{opacity:.58;transform:translateX(-4px)}
+  42%{opacity:.24;transform:translateX(7px)}
+  59%{opacity:.48;transform:translateX(-2px)}
+  78%{opacity:.10;transform:translateX(0)}
+}
+@keyframes themeGlitchBands{
+  0%,100%{opacity:0;clip-path:inset(0 0 100% 0)}
+  14%{opacity:.82;clip-path:inset(8% 0 63% 0);transform:translateX(12px)}
+  23%{opacity:.28;clip-path:inset(54% 0 18% 0);transform:translateX(-13px)}
+  34%{opacity:.62;clip-path:inset(27% 0 48% 0);transform:translateX(7px)}
+  49%{opacity:.35;clip-path:inset(73% 0 8% 0);transform:translateX(-6px)}
+  66%{opacity:.48;clip-path:inset(38% 0 37% 0);transform:translateX(3px)}
+  82%{opacity:.08;clip-path:inset(0 0 0 0);transform:none}
+}
+@keyframes themeContentGlitch{
+  0%,100%{opacity:1;filter:none}
+  14%{opacity:.78;filter:contrast(1.45) saturate(.62)}
+  22%{opacity:.96;filter:contrast(.78)}
+  31%{opacity:.62;filter:brightness(1.35)}
+  43%{opacity:1;filter:contrast(1.18)}
+  56%{opacity:.80;filter:saturate(.4)}
+  69%{opacity:1;filter:none}
+}
+
+/* -----------------------------------------------------------------
+   LIGHT MODE
+   Chic blue-gray / graphite palette, intentionally not pure white.
+   Dark mode is untouched and remains the exact v62 visual baseline.
+------------------------------------------------------------------ */
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#d1d3d6;
+  --bg2:#c7cacf;
+  --panel:#d8dade;
+  --panel2:#c5c9ce;
+  --line:rgba(26,30,36,.34);
+  --line-soft:rgba(26,30,36,.13);
+  --text:#181b20;
+  --muted:#555e69;
+  --dim:#727b86;
+  --white:#12161b;
+}
+
+html[data-theme="light"] body{
+  background:#d1d3d6;
+  color:#181b20;
+}
+html[data-theme="light"] body:before{
+  border-color:rgba(20,24,29,.34);
+}
+html[data-theme="light"] .noise{
+  opacity:.035;
+  background-image:radial-gradient(#232a32 .45px,transparent .45px);
+}
+html[data-theme="light"] .star{
+  background:#3c4651;
+  box-shadow:0 0 5px rgba(40,48,58,.22);
+}
+html[data-theme="light"] .cursor-glow{
+  background:radial-gradient(
+    circle,
+    rgba(46,57,70,.095),
+    rgba(65,78,93,.035) 30%,
+    transparent 70%
+  );
+  mix-blend-mode:multiply;
+}
+
+/* Header / navigation */
+html[data-theme="light"] .site-header{
+  background:rgba(207,210,214,.94);
+  border-color:rgba(25,29,35,.30);
+}
+html[data-theme="light"] .brand img.logo,
+html[data-theme="light"] .hero-logo{
+  filter:invert(1) brightness(.22) contrast(1.05);
+}
+html[data-theme="light"] .nav a{
+  color:#56606b;
+}
+html[data-theme="light"] .nav a small{
+  color:#7a838d;
+}
+html[data-theme="light"] .nav a:hover,
+html[data-theme="light"] .nav a.active{
+  color:#171b20;
+  background:#bfc3c8;
+  border-color:rgba(26,30,36,.35);
+}
+html[data-theme="light"] .social-link{
+  color:#555f6b;
+  border-color:rgba(26,30,36,.18);
+}
+html[data-theme="light"] .social-link:hover{
+  color:#171b20;
+  border-color:rgba(26,30,36,.46);
+  background:rgba(20,24,29,.045);
+}
+html[data-theme="light"] .social-link::after{
+  color:#434b55;
+  background:#c3c6ca;
+  border-color:rgba(26,30,36,.22);
+}
+
+/* Theme button itself */
+html[data-theme="light"] .theme-toggle{
+  border-color:rgba(26,30,36,.26);
+  background:rgba(194,198,202,.82);
+  color:#262c33;
+}
+html[data-theme="light"] .theme-toggle:hover{
+  border-color:rgba(26,30,36,.48);
+  background:#bfc3c7;
+  color:#111419;
+}
+html[data-theme="light"] .theme-toggle-track{
+  border-color:rgba(26,30,36,.32);
+  background:#aeb4bb;
+}
+html[data-theme="light"] .theme-toggle-track i{
+  left:15px;
+  background:#20262d;
+  box-shadow:0 0 0 1px rgba(255,255,255,.18);
+}
+html[data-theme="light"] .theme-toggle-copy small{
+  color:#747d87;
+}
+
+/* Main surfaces */
+html[data-theme="light"] .hero{
+  background:
+    radial-gradient(circle at 70% 50%,#b5bbc2 0,#c6cacf 34%,#d1d3d6 76%);
+}
+html[data-theme="light"] .hero:before{
+  background:
+    linear-gradient(rgba(32,38,45,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(32,38,45,.045) 1px,transparent 1px);
+  background-size:74px 74px;
+}
+html[data-theme="light"] .pagehero{
+  background:linear-gradient(120deg,#c4c8cd,#d4d6d9);
+}
+html[data-theme="light"] .ticker{
+  background:#c4c8cc;
+  color:#59636e;
+}
+html[data-theme="light"] .page-transition{
+  background:#c9ccd0;
+}
+html[data-theme="light"] footer{
+  color:#626b76;
+  border-color:rgba(26,30,36,.25);
+}
+
+/* General typography */
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .tag,
+html[data-theme="light"] .link{
+  color:#333b44;
+}
+html[data-theme="light"] .hero p.desc,
+html[data-theme="light"] .hero-strength,
+html[data-theme="light"] .pagehero p:last-child,
+html[data-theme="light"] .release-page-en,
+html[data-theme="light"] .license-hero-en,
+html[data-theme="light"] .contact-page-en,
+html[data-theme="light"] .about p{
+  color:#555e69;
+}
+html[data-theme="light"] .hud,
+html[data-theme="light"] .clock-label,
+html[data-theme="light"] .clock-date{
+  color:#68727d;
+}
+html[data-theme="light"] .clock-time{
+  color:#1b2026;
+}
+html[data-theme="light"] .clock-panel{
+  border-color:rgba(26,30,36,.27);
+}
+html[data-theme="light"] .clock-line{
+  background:rgba(26,30,36,.42);
+}
+
+/* Buttons */
+html[data-theme="light"] .btn{
+  border-color:rgba(26,30,36,.38);
+  background:#c6c9cd;
+  color:#20262d;
+}
+html[data-theme="light"] .btn.primary{
+  background:#242a31;
+  color:#eef0f2;
+  border-color:#242a31;
+}
+html[data-theme="light"] .btn:hover{
+  box-shadow:0 8px 22px rgba(30,35,42,.08);
+}
+
+/* Shared card/panel surfaces */
+html[data-theme="light"] .release-card,
+html[data-theme="light"] .card,
+html[data-theme="light"] .achievement,
+html[data-theme="light"] .event-card,
+html[data-theme="light"] .about-social,
+html[data-theme="light"] .price-card,
+html[data-theme="light"] .info-panel,
+html[data-theme="light"] .flow-step,
+html[data-theme="light"] .license-card,
+html[data-theme="light"] .license-list-panel,
+html[data-theme="light"] .copyright-box,
+html[data-theme="light"] .contact-form-panel,
+html[data-theme="light"] .contact-info-card,
+html[data-theme="light"] .license-scope-box{
+  border-color:rgba(26,30,36,.23);
+  background:#c8ccd0;
+}
+html[data-theme="light"] .request-box{
+  border-color:rgba(26,30,36,.30);
+  background:linear-gradient(110deg,#c3c7cb,#d0d2d5);
+}
+html[data-theme="light"] .achievement:before{
+  background:#303841;
+}
+html[data-theme="light"] .achievement p,
+html[data-theme="light"] .event-card p,
+html[data-theme="light"] .request-box p,
+html[data-theme="light"] .about-social small,
+html[data-theme="light"] .info-panel p,
+html[data-theme="light"] .info-panel li,
+html[data-theme="light"] .license-card>p,
+html[data-theme="light"] .license-list-panel>p,
+html[data-theme="light"] .license-list,
+html[data-theme="light"] .copyright-jp p,
+html[data-theme="light"] .copyright-en p,
+html[data-theme="light"] .copyright-box blockquote,
+html[data-theme="light"] .contact-info-card > p:not(.eyebrow){
+  color:#555e69;
+}
+html[data-theme="light"] .event-date,
+html[data-theme="light"] .flow-step .title,
+html[data-theme="light"] .price-lines strong{
+  color:#20262c;
+}
+html[data-theme="light"] .event-status{
+  color:#3f4852;
+  border-color:rgba(26,30,36,.28);
+}
+html[data-theme="light"] .event-status.live{
+  background:#2c333b;
+  color:#eef0f2;
+}
+html[data-theme="light"] .about-social a{
+  color:#414a54;
+  border-color:rgba(26,30,36,.17);
+}
+html[data-theme="light"] .about-social a:hover{
+  color:#14181d;
+  border-color:rgba(26,30,36,.42);
+  background:rgba(20,24,29,.04);
+}
+
+/* Request / pricing */
+html[data-theme="light"] .price-card:hover{
+  border-color:rgba(26,30,36,.42);
+  background:#c2c6ca;
+}
+html[data-theme="light"] .service-category-head,
+html[data-theme="light"] .price-lines div,
+html[data-theme="light"] .contact-panel-head,
+html[data-theme="light"] .contact-submit-row{
+  border-color:rgba(26,30,36,.14);
+}
+html[data-theme="light"] .service-detail,
+html[data-theme="light"] .request-note,
+html[data-theme="light"] .jp-en,
+html[data-theme="light"] .price-card .delivery,
+html[data-theme="light"] .price-card .service-code,
+html[data-theme="light"] .flow-step .num{
+  color:#66717c;
+}
+html[data-theme="light"] .request-strength-inline{
+  border-color:rgba(26,30,36,.16);
+  background:rgba(35,40,46,.025);
+}
+html[data-theme="light"] .request-strength-inline p{
+  color:#4d5660;
+}
+
+/* LICENSE */
+html[data-theme="light"] .credit-copy-box{
+  border-color:rgba(26,30,36,.24);
+  background:#bcc1c6;
+}
+html[data-theme="light"] .credit-copy-head{
+  border-color:rgba(26,30,36,.15);
+  color:#5d6873;
+}
+html[data-theme="light"] .credit-copy-btn{
+  color:#303840;
+  border-color:rgba(26,30,36,.28);
+}
+html[data-theme="light"] .credit-copy-btn:hover{
+  color:#11151a;
+  border-color:rgba(26,30,36,.56);
+  background:rgba(20,24,29,.045);
+}
+html[data-theme="light"] .credit-copy-box pre{
+  color:#303840;
+}
+html[data-theme="light"] .credit-copy-note,
+html[data-theme="light"] .license-code,
+html[data-theme="light"] .license-en,
+html[data-theme="light"] .license-en p,
+html[data-theme="light"] .license-en li{
+  color:#626d78;
+}
+html[data-theme="light"] .license-en{
+  border-color:rgba(26,30,36,.12);
+}
+html[data-theme="light"] .license-en strong{
+  color:#3e4751;
+}
+html[data-theme="light"] .copyright-en{
+  border-color:rgba(26,30,36,.12);
+}
+html[data-theme="light"] .copyright-box blockquote{
+  border-color:rgba(26,30,36,.30);
+}
+html[data-theme="light"] .inline-license-link{
+  color:#30373f;
+  border-color:rgba(26,30,36,.34);
+}
+
+/* CONTACT */
+html[data-theme="light"] .contact-label{
+  color:#353e47;
+}
+html[data-theme="light"] .contact-label small,
+html[data-theme="light"] .contact-panel-head > span,
+html[data-theme="light"] .contact-submit-row p{
+  color:#68737e;
+}
+html[data-theme="light"] .contact-field input,
+html[data-theme="light"] .contact-field textarea{
+  border-color:rgba(26,30,36,.20);
+  background:#d7d9dc;
+  color:#1c2127;
+}
+html[data-theme="light"] .contact-field input::placeholder,
+html[data-theme="light"] .contact-field textarea::placeholder{
+  color:#7a838d;
+}
+html[data-theme="light"] .contact-field input:focus,
+html[data-theme="light"] .contact-field textarea:focus{
+  border-color:rgba(26,30,36,.48);
+  background:#dde0e2;
+  box-shadow:0 0 20px rgba(35,42,50,.055);
+}
+html[data-theme="light"] .contact-submit-btn{
+  border-color:#262c33;
+  background:#262c33;
+  color:#eef0f2;
+}
+html[data-theme="light"] .contact-submit-btn:hover{
+  background:#171c21;
+  box-shadow:0 8px 22px rgba(30,35,42,.10);
+}
+html[data-theme="light"] .contact-side-link{
+  border-color:rgba(26,30,36,.15);
+  color:#343c45;
+}
+html[data-theme="light"] .contact-side-link:hover{
+  color:#11151a;
+}
+
+/* RELEASE archive */
+html[data-theme="light"] .release-library-card{
+  border-color:rgba(26,30,36,.22);
+  background:linear-gradient(180deg,#c7cbd0,#d4d6d9);
+}
+html[data-theme="light"] .release-library-card:hover{
+  border-color:rgba(26,30,36,.46);
+  background:linear-gradient(180deg,#c0c5ca,#d0d3d6);
+}
+html[data-theme="light"] .release-library-info h3{
+  color:#1e242a;
+}
+html[data-theme="light"] .release-library-info p{
+  color:#626d78;
+}
+html[data-theme="light"] .release-library-meta-top{
+  color:#65707b;
+}
+html[data-theme="light"] .release-library-meta-top .release-bpm{
+  color:#414a54;
+}
+html[data-theme="light"] .release-library-divider{
+  background:linear-gradient(90deg,rgba(26,30,36,.34),rgba(26,30,36,.06));
+}
+html[data-theme="light"] .release-library-art{
+  background:radial-gradient(circle at 50% 38%,#aeb5bd 0,#bec3c8 44%,#d1d3d6 80%);
+}
+html[data-theme="light"] .release-library-art::before{
+  background:
+    linear-gradient(rgba(30,36,43,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(30,36,43,.035) 1px,transparent 1px);
+  background-size:24px 24px;
+}
+html[data-theme="light"] .release-art-inner{
+  border-color:rgba(26,30,36,.38);
+}
+html[data-theme="light"] .release-art-inner span{
+  color:#2c333b;
+}
+html[data-theme="light"] .release-filter-btn,
+html[data-theme="light"] .release-sort-btn{
+  border-color:rgba(26,30,36,.18);
+  background:rgba(188,193,198,.58);
+  color:#4f5964;
+}
+html[data-theme="light"] .release-filter-btn:hover,
+html[data-theme="light"] .release-sort-btn:hover{
+  border-color:rgba(26,30,36,.40);
+  background:rgba(30,35,42,.04);
+  color:#171b20;
+}
+html[data-theme="light"] .release-filter-btn.active,
+html[data-theme="light"] .release-sort-btn.active{
+  border-color:#292f36;
+  background:#292f36;
+  color:#eef0f2;
+}
+html[data-theme="light"] .release-sort-wrap{
+  border-color:rgba(26,30,36,.18);
+  background:rgba(191,195,200,.45);
+}
+html[data-theme="light"] .release-sort-label,
+html[data-theme="light"] .release-sort-label small{
+  color:#59646f;
+}
+html[data-theme="light"] .release-open-mark,
+html[data-theme="light"] .release-type-badge,
+html[data-theme="light"] .release-collab-link{
+  border-color:rgba(255,255,255,.34);
+  background:rgba(31,36,43,.86);
+  color:#edf0f2;
+}
+html[data-theme="light"] .release-collab-links{
+  border-color:rgba(26,30,36,.13);
+}
+html[data-theme="light"] .release-collab-links-name{
+  color:#515c67;
+}
+html[data-theme="light"] .release-collab-links-name small{
+  color:#7a838d;
+}
+html[data-theme="light"] .jacket-ui-frame{
+  background:#b9bec4;
+  border-color:rgba(26,30,36,.28);
+}
+html[data-theme="light"] .jacket-ui-frame::after{
+  border-color:rgba(26,30,36,.14);
+}
+html[data-theme="light"] .jacket-ui-code{
+  color:#535e69;
+}
+html[data-theme="light"] .release-missing-frame{
+  background:
+    linear-gradient(rgba(26,30,36,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(26,30,36,.035) 1px,transparent 1px),
+    #c5c9cd;
+  background-size:18px 18px;
+}
+html[data-theme="light"] .release-missing-art-inner{
+  border-color:rgba(26,30,36,.20);
+  background:rgba(210,213,216,.72);
+}
+html[data-theme="light"] .release-missing-art-inner > strong{
+  color:#303840;
+}
+
+/* RANDOM SELECT trigger follows the light site.
+   The fullscreen boss reveal intentionally remains dark/cinematic. */
+html[data-theme="light"] .release-random-panel{
+  border-color:rgba(26,30,36,.16) !important;
+  background:rgba(193,197,201,.52) !important;
+}
+html[data-theme="light"] .release-random-panel::before{
+  background:rgba(83,52,63,.50) !important;
+}
+html[data-theme="light"] .release-random-kicker,
+html[data-theme="light"] .release-random-copy small{
+  color:#69737d !important;
+}
+html[data-theme="light"] .release-random-copy strong{
+  color:#242a31 !important;
+}
+html[data-theme="light"] .release-random-btn{
+  border-color:rgba(26,30,36,.25) !important;
+  background:#bec2c6 !important;
+  color:#252b32 !important;
+}
+html[data-theme="light"] .release-random-btn:hover{
+  border-color:rgba(26,30,36,.46) !important;
+  background:#b6bbc0 !important;
+}
+html[data-theme="light"] .release-random-btn small{
+  color:#6b7580 !important;
+}
+html[data-theme="light"] .release-random-btn small b{
+  color:#4b5560 !important;
+}
+
+/* HOME achievement detail */
+html[data-theme="light"] .achievement-detail{
+  border-color:rgba(26,30,36,.13);
+}
+html[data-theme="light"] .achievement-detail a{
+  border-color:rgba(26,30,36,.14);
+  background:rgba(25,30,36,.025);
+}
+html[data-theme="light"] .achievement-detail a:hover{
+  border-color:rgba(26,30,36,.35);
+  background:rgba(25,30,36,.045);
+}
+html[data-theme="light"] .achievement-detail strong{
+  color:#303840;
+}
+html[data-theme="light"] .achievement-detail small,
+html[data-theme="light"] .achievement-detail i,
+html[data-theme="light"] .achievement-detail-label{
+  color:#69747f;
+}
+
+/* Mobile navigation */
+html[data-theme="light"] .mobile-menu-toggle{
+  border-color:rgba(26,30,36,.28);
+  background:rgba(193,197,201,.88);
+  color:#262c33;
+}
+html[data-theme="light"] .mobile-menu-toggle i{
+  background:#4e5863;
+}
+html[data-theme="light"] .mobile-menu-panel{
+  background:rgba(205,208,212,.97);
+}
+html[data-theme="light"] .mobile-menu-head,
+html[data-theme="light"] .mobile-menu-foot{
+  color:#626c77;
+  border-color:rgba(26,30,36,.16);
+}
+html[data-theme="light"] .mobile-menu-close{
+  color:#4c5661;
+  border-color:rgba(26,30,36,.22);
+}
+html[data-theme="light"] .mobile-menu-nav a{
+  color:#30373f;
+  border-color:rgba(26,30,36,.13);
+}
+html[data-theme="light"] .mobile-menu-nav a small{
+  color:#747e88;
+}
+html[data-theme="light"] .mobile-menu-nav a.active,
+html[data-theme="light"] .mobile-menu-nav a:hover{
+  background:#bec2c6;
+  color:#11151a;
+}
+
+/* Responsive placement */
+@media(max-width:900px){
+  .site-header .theme-toggle{
+    order:1;
+    min-width:45px;
+    width:45px;
+    height:42px;
+    padding:0;
+    gap:0;
+  }
+  .site-header .theme-toggle-copy{
+    display:none;
+  }
+  .site-header .theme-toggle-track{
+    width:25px;
+    flex-basis:25px;
+  }
+  .site-header .mobile-menu-toggle{
+    order:2;
+  }
+  .site-header .brand-area{
+    order:0;
+  }
+}
+
+@media(max-width:390px){
+  .site-header .theme-toggle{
+    width:40px;
+    min-width:40px;
+  }
+  .site-header .mobile-menu-toggle{
+    width:72px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  html.theme-switching .theme-glitch-overlay,
+  html.theme-switching .theme-glitch-overlay::before,
+  html.theme-switching .theme-glitch-overlay::after,
+  html.theme-switching .site-header,
+  html.theme-switching main,
+  html.theme-switching footer{
+    animation:none !important;
+  }
+}
+
+
+/* ===== v64: LIGHT readability + slightly denser stars =====
+   Keep the sophisticated gray LIGHT palette, but deepen secondary text so it
+   stays readable against the mid-gray panels/background.
+*/
+html[data-theme="light"]{
+  --muted:#434b54;
+  --dim:#59616a;
+}
+
+html[data-theme="light"] .nav a{color:#424a53}
+html[data-theme="light"] .nav a small{color:#59626c}
+html[data-theme="light"] .social-link{color:#444d57}
+html[data-theme="light"] .social-link::after{color:#39414a}
+html[data-theme="light"] .theme-toggle-copy small{color:#59616a}
+html[data-theme="light"] .ticker{color:#48515b}
+html[data-theme="light"] footer{color:#48515b}
+
+html[data-theme="light"] .hero p.desc,
+html[data-theme="light"] .hero-strength,
+html[data-theme="light"] .pagehero p:last-child,
+html[data-theme="light"] .release-page-en,
+html[data-theme="light"] .license-hero-en,
+html[data-theme="light"] .contact-page-en,
+html[data-theme="light"] .about p{
+  color:#434b54;
+}
+
+html[data-theme="light"] .hud,
+html[data-theme="light"] .clock-label,
+html[data-theme="light"] .clock-date{
+  color:#505963;
+}
+
+html[data-theme="light"] .achievement p,
+html[data-theme="light"] .event-card p,
+html[data-theme="light"] .request-box p,
+html[data-theme="light"] .about-social small,
+html[data-theme="light"] .info-panel p,
+html[data-theme="light"] .info-panel li,
+html[data-theme="light"] .license-card>p,
+html[data-theme="light"] .license-list-panel>p,
+html[data-theme="light"] .license-list,
+html[data-theme="light"] .copyright-jp p,
+html[data-theme="light"] .copyright-en p,
+html[data-theme="light"] .copyright-box blockquote,
+html[data-theme="light"] .contact-info-card > p:not(.eyebrow){
+  color:#444c55;
+}
+
+html[data-theme="light"] .service-detail,
+html[data-theme="light"] .request-note,
+html[data-theme="light"] .jp-en,
+html[data-theme="light"] .price-card .delivery,
+html[data-theme="light"] .price-card .service-code,
+html[data-theme="light"] .flow-step .num{
+  color:#505963;
+}
+html[data-theme="light"] .request-strength-inline p{color:#414951}
+
+html[data-theme="light"] .credit-copy-head,
+html[data-theme="light"] .credit-copy-note,
+html[data-theme="light"] .license-code,
+html[data-theme="light"] .license-en,
+html[data-theme="light"] .license-en p,
+html[data-theme="light"] .license-en li{
+  color:#4d5660;
+}
+
+html[data-theme="light"] .contact-label small,
+html[data-theme="light"] .contact-panel-head > span,
+html[data-theme="light"] .contact-submit-row p{
+  color:#505963;
+}
+html[data-theme="light"] .contact-field input::placeholder,
+html[data-theme="light"] .contact-field textarea::placeholder{
+  color:#626b74;
+}
+
+html[data-theme="light"] .release-library-info p{color:#46505a}
+html[data-theme="light"] .release-library-meta-top{color:#4d5660}
+html[data-theme="light"] .release-sort-label,
+html[data-theme="light"] .release-sort-label small{color:#48515a}
+html[data-theme="light"] .release-collab-links-name{color:#414a54}
+html[data-theme="light"] .release-collab-links-name small{color:#5c6570}
+html[data-theme="light"] .jacket-ui-code{color:#46505a}
+
+html[data-theme="light"] .release-random-kicker,
+html[data-theme="light"] .release-random-copy small{color:#505963 !important}
+html[data-theme="light"] .release-random-btn small{color:#555e68 !important}
+html[data-theme="light"] .release-random-btn small b{color:#3f4851 !important}
+
+html[data-theme="light"] .achievement-detail small,
+html[data-theme="light"] .achievement-detail i,
+html[data-theme="light"] .achievement-detail-label{color:#515a64}
+
+html[data-theme="light"] .mobile-menu-head,
+html[data-theme="light"] .mobile-menu-foot{color:#4c5560}
+html[data-theme="light"] .mobile-menu-nav a small{color:#59626c}
+
+
+/* ===== v65: LIGHT high-contrast readability / DARK default =====
+   Legal text and release metadata must remain clearly readable.
+   Background stays chic gray, but muted text is now substantially darker.
+*/
+html[data-theme="light"]{
+  --muted:#30363d;
+  --dim:#444b53;
+}
+
+/* Core body text and generic muted copy */
+html[data-theme="light"] body{
+  color:#15191e;
+}
+html[data-theme="light"] p,
+html[data-theme="light"] li,
+html[data-theme="light"] small{
+  text-shadow:none;
+}
+
+/* LICENSE: prioritize readability over decorative faintness */
+html[data-theme="light"] .license-scope-box,
+html[data-theme="light"] .license-card,
+html[data-theme="light"] .license-list-panel,
+html[data-theme="light"] .copyright-box,
+html[data-theme="light"] .credit-copy-box{
+  background:#d9dbde !important;
+  border-color:rgba(20,24,29,.28) !important;
+}
+html[data-theme="light"] .license-scope-box > p,
+html[data-theme="light"] .license-card > p,
+html[data-theme="light"] .license-list-panel > p,
+html[data-theme="light"] .license-list,
+html[data-theme="light"] .license-list li,
+html[data-theme="light"] .license-en,
+html[data-theme="light"] .license-en p,
+html[data-theme="light"] .license-en li,
+html[data-theme="light"] .copyright-jp p,
+html[data-theme="light"] .copyright-en p,
+html[data-theme="light"] .copyright-box blockquote,
+html[data-theme="light"] .credit-copy-note{
+  color:#2e343b !important;
+}
+html[data-theme="light"] .license-en strong,
+html[data-theme="light"] .copyright-box strong,
+html[data-theme="light"] .license-card strong,
+html[data-theme="light"] .license-list-panel strong{
+  color:#171b20 !important;
+}
+html[data-theme="light"] .license-code,
+html[data-theme="light"] .credit-copy-head{
+  color:#3b424a !important;
+}
+html[data-theme="light"] .credit-copy-box pre{
+  color:#1f252b !important;
+}
+
+/* RELEASE cards: meta information should be clearly legible */
+html[data-theme="light"] .release-library-card{
+  background:linear-gradient(180deg,#d6d8db,#cfd2d5) !important;
+}
+html[data-theme="light"] .release-library-card:hover{
+  background:linear-gradient(180deg,#d9dbde,#d2d5d8) !important;
+}
+html[data-theme="light"] .release-library-meta-top,
+html[data-theme="light"] .release-library-meta-top span,
+html[data-theme="light"] .release-library-info p{
+  color:#333a42 !important;
+}
+html[data-theme="light"] .release-library-meta-top .release-bpm{
+  color:#22282e !important;
+}
+html[data-theme="light"] .release-genre{
+  color:#313840 !important;
+}
+html[data-theme="light"] .release-library-info h3{
+  color:#171b20 !important;
+}
+
+/* REQUEST / CONTACT / ABOUT / EVENT: darken quiet explanatory text */
+html[data-theme="light"] .service-detail,
+html[data-theme="light"] .request-note,
+html[data-theme="light"] .jp-en,
+html[data-theme="light"] .price-card .delivery,
+html[data-theme="light"] .price-card .service-code,
+html[data-theme="light"] .flow-step .num,
+html[data-theme="light"] .request-strength-inline p,
+html[data-theme="light"] .contact-label small,
+html[data-theme="light"] .contact-panel-head > span,
+html[data-theme="light"] .contact-submit-row p,
+html[data-theme="light"] .contact-info-card > p:not(.eyebrow),
+html[data-theme="light"] .about p,
+html[data-theme="light"] .event-card p,
+html[data-theme="light"] .achievement p,
+html[data-theme="light"] .achievement-detail small,
+html[data-theme="light"] .achievement-detail i,
+html[data-theme="light"] .achievement-detail-label{
+  color:#343b43 !important;
+}
+
+/* Page intros / helper text */
+html[data-theme="light"] .hero p.desc,
+html[data-theme="light"] .hero-strength,
+html[data-theme="light"] .pagehero p:last-child,
+html[data-theme="light"] .release-page-en,
+html[data-theme="light"] .license-hero-en,
+html[data-theme="light"] .contact-page-en{
+  color:#343b43 !important;
+}
+
+/* Navigation and miscellaneous small labels */
+html[data-theme="light"] .nav a,
+html[data-theme="light"] .nav a small,
+html[data-theme="light"] .social-link,
+html[data-theme="light"] .ticker,
+html[data-theme="light"] footer,
+html[data-theme="light"] .hud,
+html[data-theme="light"] .clock-label,
+html[data-theme="light"] .clock-date,
+html[data-theme="light"] .release-sort-label,
+html[data-theme="light"] .release-sort-label small,
+html[data-theme="light"] .release-collab-links-name,
+html[data-theme="light"] .release-collab-links-name small,
+html[data-theme="light"] .jacket-ui-code,
+html[data-theme="light"] .mobile-menu-head,
+html[data-theme="light"] .mobile-menu-foot,
+html[data-theme="light"] .mobile-menu-nav a small{
+  color:#3c444d !important;
+}
+
+/* Placeholder text slightly darker too */
+html[data-theme="light"] .contact-field input::placeholder,
+html[data-theme="light"] .contact-field textarea::placeholder{
+  color:#555e67 !important;
+}

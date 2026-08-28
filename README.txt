@@ -415,3 +415,58 @@ Added assets:
 
 All v60 RANDOM SELECT glass behavior, filters, sort, floating cards, Formspree,
 OGP, favicon, and previous releases are preserved.
+
+
+PIXILNOISE PERSONAL SITE v62 RANDOM SHAKE
+========================================
+- v61 is the content baseline.
+- Restored a subtle version of the pre-lightweight RANDOM SELECT vibration.
+- During roulette/scanning, the RANDOM SELECT shell now has a very small micro-shake.
+- TARGET LOCK / glass-break timing gets a short stronger jolt.
+- The selected result settles gently after the glass effect.
+- Uses CSS `translate` rather than `transform`, preserving the stable fullscreen/compositing fixes.
+- v60 localized glass-break effect is unchanged.
+- v58 cursor/body class-collision fix remains intact.
+- Mobile uses reduced shake strength; reduced-motion disables it entirely.
+
+
+PIXILNOISE PERSONAL SITE v63 THEME TOGGLE
+=========================================
+- v62 is the baseline / latest content version.
+- Removed the upper-right ONLINE indicator from every page header.
+- Added DARK / LIGHT mode toggle in the same header area.
+- DARK mode preserves the existing v62 colors.
+- LIGHT mode uses a chic blue-gray / graphite palette rather than pure white.
+- Theme choice persists across pages via localStorage.
+- Added an early head initializer to prevent a dark flash when navigating in LIGHT mode.
+- Added a strong glitch-style theme switch transition with scanlines / sliced bands / flicker.
+- Mobile header gets a compact theme switch beside MENU.
+- RANDOM SELECT boss overlay remains intentionally dark/cinematic in both themes.
+- Existing v62 RANDOM SELECT shake, localized glass break, release cards, sorting/filtering,
+  Formspree, OGP, favicon and all previous content are preserved.
+
+
+PIXILNOISE PERSONAL SITE v64 READABILITY / STARS
+================================================
+- v63 is the baseline.
+- Increased background star density slightly in both DARK and LIGHT modes.
+  Previous range: 45–85 stars. New range: 55–105 stars, responsive to viewport width.
+- Improved LIGHT mode contrast by deepening secondary/muted gray text across HOME,
+  RELEASE, REQUEST, LICENSE, CONTACT, ABOUT, EVENT, mobile navigation and header UI.
+- LIGHT mode remains a chic gray/graphite palette rather than pure white.
+- DARK mode colors and all v63/v62 functionality are otherwise preserved.
+
+
+PIXILNOISE PERSONAL SITE v65 LIGHT CONTRAST / DARK DEFAULT
+=========================================================
+- v64 is the baseline.
+- LIGHT mode readability strengthened substantially, especially:
+  LICENSE/legal text, RELEASE metadata, request/contact explanatory copy,
+  page intro text, navigation labels and other muted gray text.
+- Dense legal/release panels are slightly brighter gray while text is darker.
+- LIGHT mode remains a chic gray/graphite theme, not a pure-white theme.
+- Default theme is DARK.
+- Theme storage key moved to `pixilnoise-theme-v2`, so this version starts in
+  DARK once even if an older version had LIGHT saved. After the user toggles,
+  the new preference persists normally across pages.
+- v64 star density and all v62/v63 functionality are preserved.
