@@ -3202,3 +3202,1153 @@ body.page-ready{
   .achievement-detail strong{font-size:11px}
   .achievement-detail small{font-size:9px}
 }
+
+
+/* ===== v53: long pending-art title safety ===== */
+.release-missing-art-inner > strong{
+  max-width:92%;
+  overflow-wrap:anywhere;
+}
+
+
+/* ===== v54: subtle floating motion for RELEASE song cards =====
+   Uses the individual `translate` property so the existing hover transform
+   and FLIP sorting animation can keep using `transform` independently.
+*/
+.release-page .release-library-card:not(.release-placeholder){
+  animation:releaseCardIdleFloat 6.8s ease-in-out infinite;
+  will-change:translate;
+}
+
+.release-page .release-library-card:not(.release-placeholder):nth-child(3n+1){
+  animation-delay:-1.35s;
+  animation-duration:6.4s;
+}
+.release-page .release-library-card:not(.release-placeholder):nth-child(3n+2){
+  animation-delay:-3.7s;
+  animation-duration:7.2s;
+}
+.release-page .release-library-card:not(.release-placeholder):nth-child(3n){
+  animation-delay:-5.1s;
+  animation-duration:7.8s;
+}
+
+@keyframes releaseCardIdleFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -4px}
+}
+
+/* Keep the smartphone motion especially restrained. */
+@media(max-width:700px){
+  @keyframes releaseCardIdleFloat{
+    0%,100%{translate:0 0}
+    50%{translate:0 -2px}
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .release-page .release-library-card:not(.release-placeholder){
+    animation:none !important;
+    translate:none !important;
+    will-change:auto;
+  }
+}
+
+
+/* ===== v55: RANDOM SELECT / boss-track reveal ===== */
+.release-random-panel{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin:8px 0 18px;
+  padding:14px 15px;
+  border:1px solid rgba(255,72,112,.34);
+  background:
+    linear-gradient(90deg,rgba(255,36,89,.075),transparent 42%),
+    rgba(4,8,14,.58);
+  overflow:hidden;
+}
+.release-random-panel::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:2px;
+  background:#ff315f;
+  box-shadow:0 0 16px rgba(255,49,95,.48);
+}
+.release-random-panel::after{
+  content:"RANDOM // SELECT";
+  position:absolute;
+  right:180px;
+  top:5px;
+  color:rgba(255,74,112,.10);
+  font-size:27px;
+  letter-spacing:.12em;
+  pointer-events:none;
+}
+.release-random-copy{
+  position:relative;
+  z-index:1;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.release-random-kicker{
+  color:#ff6a8c;
+  font-size:7px;
+  letter-spacing:.17em;
+}
+.release-random-copy strong{
+  color:#e6ebf3;
+  font-size:13px;
+  font-weight:300;
+  letter-spacing:.12em;
+}
+.release-random-copy small{
+  color:#657184;
+  font-size:8px;
+  line-height:1.55;
+  letter-spacing:.035em;
+}
+.release-random-btn{
+  position:relative;
+  z-index:2;
+  flex:0 0 auto;
+  min-width:190px;
+  min-height:52px;
+  display:grid;
+  place-content:center;
+  gap:4px;
+  padding:9px 18px 8px 24px;
+  border:1px solid rgba(255,86,124,.74);
+  background:rgba(39,5,16,.88);
+  color:#fff2f5;
+  cursor:pointer;
+  overflow:hidden;
+  font-family:"Noto Sans JP","Yu Gothic",sans-serif;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+.release-random-btn::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(105deg,transparent 0 40%,rgba(255,255,255,.13) 48%,transparent 56%);
+  transform:translateX(-115%);
+  transition:transform .45s ease;
+}
+.release-random-btn:hover{
+  transform:translateY(-2px);
+  border-color:#ff7896;
+  background:rgba(60,7,23,.94);
+  box-shadow:0 8px 26px rgba(255,37,89,.12);
+}
+.release-random-btn:hover::before{transform:translateX(115%)}
+.release-random-btn-main{
+  position:relative;
+  z-index:1;
+  font-size:11px;
+  letter-spacing:.14em;
+}
+.release-random-btn small{
+  position:relative;
+  z-index:1;
+  color:#bb7888;
+  font-size:7px;
+  letter-spacing:.1em;
+}
+.release-random-btn small b{color:#ff91a8;font-weight:400}
+.release-random-btn-signal{
+  position:absolute;
+  left:10px;
+  top:50%;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#ff315f;
+  transform:translateY(-50%);
+  box-shadow:0 0 0 0 rgba(255,49,95,.52);
+  animation:randomSignalPulse 1.55s ease-out infinite;
+}
+@keyframes randomSignalPulse{
+  0%{box-shadow:0 0 0 0 rgba(255,49,95,.45)}
+  70%{box-shadow:0 0 0 8px rgba(255,49,95,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,49,95,0)}
+}
+
+body.random-boss-active{overflow:hidden}
+.random-boss-overlay{
+  position:fixed;
+  inset:0;
+  z-index:5000;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:rgba(1,3,7,.94);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .26s ease,visibility .26s ease;
+  overflow:hidden;
+}
+.random-boss-overlay[hidden]{display:none}
+.random-boss-overlay.is-open{
+  opacity:1;
+  visibility:visible;
+}
+.random-boss-grid{
+  position:absolute;
+  inset:-10%;
+  background-image:
+    linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(255,28,76,.11),transparent 46%);
+  background-size:34px 34px,34px 34px,100% 100%;
+  transform:perspective(700px) rotateX(58deg) scale(1.5) translateY(15%);
+  transform-origin:50% 60%;
+  opacity:.7;
+}
+.random-boss-noise{
+  position:absolute;
+  inset:0;
+  opacity:.10;
+  pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.1) 0 1px,transparent 1px 4px);
+  mix-blend-mode:screen;
+  animation:randomBossNoise 1.9s steps(2,end) infinite;
+}
+@keyframes randomBossNoise{
+  0%,78%,100%{opacity:.055;transform:translateY(0)}
+  80%{opacity:.16;transform:translateY(-2px)}
+  82%{opacity:.08;transform:translateY(1px)}
+  84%{opacity:.14;transform:translateY(0)}
+}
+.random-boss-scanline{
+  position:absolute;
+  left:0;
+  right:0;
+  height:1px;
+  top:-4%;
+  background:linear-gradient(90deg,transparent,#ff315f 18%,#fff 50%,#ff315f 82%,transparent);
+  box-shadow:0 0 18px rgba(255,49,95,.5);
+  opacity:0;
+}
+.random-boss-overlay.is-running .random-boss-scanline{
+  opacity:.82;
+  animation:randomBossScan 1.06s linear infinite;
+}
+@keyframes randomBossScan{from{top:2%}to{top:98%}}
+.random-boss-flash{
+  position:absolute;
+  inset:0;
+  background:#f3f6fb;
+  opacity:0;
+  pointer-events:none;
+}
+.random-boss-overlay.is-impact .random-boss-flash{animation:randomBossFlash .21s steps(2,end)}
+@keyframes randomBossFlash{
+  0%{opacity:0}
+  18%{opacity:.88}
+  35%{opacity:.04}
+  52%{opacity:.52}
+  100%{opacity:0}
+}
+.random-boss-shell{
+  position:relative;
+  z-index:3;
+  width:min(980px,94vw);
+  min-height:min(650px,86vh);
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  border:1px solid rgba(255,255,255,.28);
+  background:rgba(3,7,12,.88);
+  box-shadow:0 26px 90px rgba(0,0,0,.55),0 0 0 1px rgba(255,49,95,.05) inset;
+  transform:scale(.985);
+  transition:transform .26s cubic-bezier(.22,1,.36,1),border-color .2s ease;
+  overflow:hidden;
+}
+.random-boss-overlay.is-open .random-boss-shell{transform:scale(1)}
+.random-boss-overlay.is-impact .random-boss-shell{
+  border-color:rgba(255,77,117,.9);
+  animation:randomBossImpact .20s steps(2,end);
+}
+@keyframes randomBossImpact{
+  0%{transform:translate(0,0) scale(1)}
+  20%{transform:translate(-5px,1px) scale(1.008)}
+  42%{transform:translate(4px,-2px) scale(1.004)}
+  64%{transform:translate(-2px,2px) scale(1.002)}
+  100%{transform:translate(0,0) scale(1)}
+}
+.random-boss-head,
+.random-boss-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:13px 16px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+  background:rgba(255,255,255,.018);
+}
+.random-boss-head > div{display:flex;flex-direction:column;gap:4px}
+.random-boss-system{
+  color:#ff6b8c;
+  font-size:8px;
+  letter-spacing:.16em;
+}
+.random-boss-head strong{
+  color:#dfe6ef;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:.13em;
+}
+.random-boss-close{
+  border:1px solid rgba(255,255,255,.18);
+  background:transparent;
+  color:#7c8798;
+  min-height:34px;
+  padding:0 12px;
+  cursor:pointer;
+  font:300 8px/1 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.1em;
+  transition:color .2s ease,border-color .2s ease,background .2s ease;
+}
+.random-boss-close:hover{color:#fff;border-color:rgba(255,255,255,.55);background:rgba(255,255,255,.04)}
+.random-boss-stage{
+  position:relative;
+  display:grid;
+  place-items:center;
+  min-height:0;
+  padding:34px;
+  overflow:hidden;
+}
+.random-boss-stage::before,
+.random-boss-stage::after{
+  content:"";
+  position:absolute;
+  left:7%;
+  right:7%;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,49,95,.45),transparent);
+  opacity:.45;
+}
+.random-boss-stage::before{top:15%}
+.random-boss-stage::after{bottom:15%}
+.random-boss-reticle{
+  position:absolute;
+  width:min(560px,64vw);
+  aspect-ratio:1;
+  border:1px solid rgba(255,65,107,.10);
+  border-radius:50%;
+  opacity:.6;
+  animation:randomBossReticle 10s linear infinite;
+}
+.random-boss-reticle::before,
+.random-boss-reticle::after{
+  content:"";
+  position:absolute;
+  inset:14%;
+  border:1px dashed rgba(255,255,255,.08);
+  border-radius:50%;
+}
+.random-boss-reticle::after{inset:33%;border-style:solid;border-color:rgba(255,49,95,.15)}
+.random-boss-reticle i{position:absolute;background:rgba(255,85,124,.35)}
+.random-boss-reticle i:nth-child(1),.random-boss-reticle i:nth-child(2){width:1px;height:16%;left:50%}
+.random-boss-reticle i:nth-child(1){top:-3%}.random-boss-reticle i:nth-child(2){bottom:-3%}
+.random-boss-reticle i:nth-child(3),.random-boss-reticle i:nth-child(4){height:1px;width:16%;top:50%}
+.random-boss-reticle i:nth-child(3){left:-3%}.random-boss-reticle i:nth-child(4){right:-3%}
+@keyframes randomBossReticle{to{transform:rotate(360deg)}}
+.random-boss-roulette{
+  position:relative;
+  z-index:2;
+  width:min(760px,90%);
+  text-align:center;
+  transition:opacity .16s ease,transform .16s ease,filter .16s ease;
+}
+.random-boss-index{
+  display:block;
+  margin-bottom:15px;
+  color:#ff5278;
+  font-size:9px;
+  letter-spacing:.22em;
+}
+.random-boss-roulette h2{
+  margin:0;
+  color:#edf2f7;
+  font-size:clamp(24px,5vw,60px);
+  line-height:1.08;
+  font-weight:300;
+  letter-spacing:.035em;
+  overflow-wrap:anywhere;
+  text-shadow:-2px 0 rgba(255,49,95,.32),2px 0 rgba(77,198,255,.14);
+}
+.random-boss-roulette small{
+  display:block;
+  margin-top:17px;
+  color:#667287;
+  font-size:8px;
+  letter-spacing:.18em;
+}
+.random-boss-overlay.is-tick .random-boss-roulette h2{animation:randomBossTick .11s steps(2,end)}
+@keyframes randomBossTick{
+  0%{transform:translateX(0);filter:none}
+  30%{transform:translateX(-4px);filter:blur(.5px)}
+  55%{transform:translateX(3px)}
+  100%{transform:translateX(0);filter:none}
+}
+.random-boss-result{
+  position:relative;
+  z-index:4;
+  width:min(800px,96%);
+  display:grid;
+  grid-template-columns:minmax(230px,42%) 1fr;
+  gap:28px;
+  align-items:center;
+  opacity:0;
+  visibility:hidden;
+  transform:scale(.96);
+  filter:blur(8px);
+  transition:opacity .32s ease,transform .42s cubic-bezier(.22,1,.36,1),filter .32s ease,visibility .32s ease;
+  position:absolute;
+}
+.random-boss-overlay.is-revealed .random-boss-result{
+  opacity:1;
+  visibility:visible;
+  transform:scale(1);
+  filter:blur(0);
+}
+.random-boss-overlay.is-revealed .random-boss-roulette{
+  opacity:0;
+  visibility:hidden;
+  transform:scale(1.06);
+  filter:blur(8px);
+}
+.random-boss-art-wrap{
+  position:relative;
+  aspect-ratio:1;
+  display:grid;
+  place-items:center;
+  padding:9px;
+  border:1px solid rgba(255,255,255,.20);
+  background:#02050a;
+  box-shadow:0 18px 45px rgba(0,0,0,.38);
+}
+.random-boss-art-wrap::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  border:1px solid rgba(255,49,95,.18);
+  transform:scale(1.035);
+  pointer-events:none;
+}
+.random-boss-art-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.random-boss-art-wrap img[hidden]{display:none}
+.random-boss-no-art{
+  width:100%;
+  height:100%;
+  display:grid;
+  place-content:center;
+  gap:8px;
+  text-align:center;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    #03060b;
+  background-size:18px 18px;
+}
+.random-boss-no-art[hidden]{display:none}
+.random-boss-no-art span{color:#ff5e81;font-size:8px;letter-spacing:.17em}
+.random-boss-no-art strong{color:#748096;font-size:11px;font-weight:300;letter-spacing:.13em}
+.random-boss-target{
+  position:absolute;
+  left:14px;
+  bottom:14px;
+  padding:6px 8px;
+  border:1px solid rgba(255,76,115,.50);
+  background:rgba(4,7,12,.86);
+  color:#ff7796;
+  font-size:7px;
+  letter-spacing:.14em;
+}
+.random-boss-art-corners i{position:absolute;width:18px;height:18px;z-index:3;pointer-events:none}
+.random-boss-art-corners i:nth-child(1){left:5px;top:5px;border-left:1px solid #fff;border-top:1px solid #fff}
+.random-boss-art-corners i:nth-child(2){right:5px;top:5px;border-right:1px solid #fff;border-top:1px solid #fff}
+.random-boss-art-corners i:nth-child(3){left:5px;bottom:5px;border-left:1px solid #fff;border-bottom:1px solid #fff}
+.random-boss-art-corners i:nth-child(4){right:5px;bottom:5px;border-right:1px solid #fff;border-bottom:1px solid #fff}
+.random-boss-info{min-width:0}
+.random-boss-acquired{
+  display:block;
+  color:#ff5b80;
+  font-size:8px;
+  letter-spacing:.18em;
+  margin-bottom:10px;
+}
+.random-boss-info h2{
+  margin:0;
+  color:#edf2f7;
+  font-size:clamp(22px,3.6vw,42px);
+  font-weight:300;
+  line-height:1.08;
+  letter-spacing:.025em;
+  overflow-wrap:anywhere;
+}
+.random-boss-info > p{
+  margin:9px 0 0;
+  color:#8e99a9;
+  font-size:11px;
+}
+.random-boss-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:20px;
+}
+.random-boss-meta span{
+  padding:7px 9px;
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.018);
+  color:#b8c1cf;
+  font-size:8px;
+  letter-spacing:.08em;
+}
+.random-boss-genre{
+  margin-top:9px;
+  padding:10px 11px;
+  border-left:1px solid rgba(255,75,115,.55);
+  background:rgba(255,49,95,.035);
+  color:#7f8b9e;
+  font-size:8px;
+  line-height:1.65;
+  letter-spacing:.055em;
+}
+.random-boss-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:21px;
+}
+.random-boss-open,
+.random-boss-retry{
+  min-height:40px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 14px;
+  text-decoration:none;
+  cursor:pointer;
+  font:300 8px/1 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.11em;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+.random-boss-open{
+  border:1px solid rgba(255,76,116,.66);
+  background:rgba(52,6,20,.78);
+  color:#ffe8ee;
+}
+.random-boss-retry{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.018);
+  color:#8995a6;
+}
+.random-boss-open:hover,.random-boss-retry:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.58);color:#fff}
+.random-boss-foot{
+  border-top:1px solid rgba(255,255,255,.13);
+  border-bottom:0;
+  color:#566276;
+  font-size:7px;
+  letter-spacing:.13em;
+}
+.random-boss-foot span:last-child{color:#ff6688}
+
+@media(max-width:760px){
+  .release-random-panel{align-items:stretch;flex-direction:column;gap:12px;padding:13px}
+  .release-random-panel::after{right:-18px;top:7px;font-size:22px}
+  .release-random-btn{width:100%;min-width:0}
+  .random-boss-overlay{padding:10px}
+  .random-boss-shell{width:100%;min-height:min(720px,94vh)}
+  .random-boss-stage{padding:22px 15px}
+  .random-boss-result{grid-template-columns:1fr;width:min(390px,96%);gap:17px;max-height:76vh;overflow:auto;padding:4px}
+  .random-boss-art-wrap{width:min(260px,72vw);justify-self:center}
+  .random-boss-info{text-align:left}
+  .random-boss-reticle{width:90vw}
+  .random-boss-roulette{width:96%}
+  .random-boss-roulette h2{font-size:clamp(22px,9vw,42px)}
+  .random-boss-head{padding:11px 12px}
+  .random-boss-system{font-size:7px}
+  .random-boss-head strong{font-size:8px}
+  .random-boss-foot{padding:10px 12px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .release-random-btn-signal,
+  .random-boss-noise,
+  .random-boss-scanline,
+  .random-boss-reticle,
+  .random-boss-overlay.is-impact .random-boss-flash,
+  .random-boss-overlay.is-impact .random-boss-shell,
+  .random-boss-overlay.is-tick .random-boss-roulette h2{
+    animation:none !important;
+  }
+  .random-boss-result,
+  .random-boss-roulette,
+  .random-boss-shell,
+  .random-boss-overlay{transition:none !important}
+}
+
+
+/* ===== v56: RANDOM SELECT stability fix / quieter trigger ===== */
+
+/* RANDOM SELECT is intentionally quieter than v55. */
+.release-random-panel{
+  padding:11px 13px !important;
+  margin:6px 0 16px !important;
+  border-color:rgba(255,255,255,.16) !important;
+  background:rgba(5,9,15,.52) !important;
+}
+.release-random-panel::before{
+  width:1px !important;
+  background:rgba(255,76,112,.64) !important;
+  box-shadow:none !important;
+}
+.release-random-panel::after{
+  display:none !important;
+}
+.release-random-kicker{
+  color:#8e98a8 !important;
+}
+.release-random-copy strong{
+  font-size:12px !important;
+}
+.release-random-btn{
+  min-width:176px !important;
+  min-height:45px !important;
+  padding:8px 15px 7px 21px !important;
+  border-color:rgba(255,255,255,.24) !important;
+  background:rgba(7,11,18,.88) !important;
+  color:#cfd6e0 !important;
+  box-shadow:none !important;
+}
+.release-random-btn:hover{
+  transform:translateY(-1px) !important;
+  border-color:rgba(255,94,127,.50) !important;
+  background:rgba(11,15,23,.96) !important;
+  box-shadow:none !important;
+}
+.release-random-btn-main{
+  font-size:10px !important;
+  letter-spacing:.12em !important;
+}
+.release-random-btn small{
+  color:#657184 !important;
+}
+.release-random-btn small b{
+  color:#8d98aa !important;
+}
+.release-random-btn-signal{
+  width:4px !important;
+  height:4px !important;
+  background:#d84b6d !important;
+}
+
+/* The overlay now lives outside <main>, but forcefully isolate it from page animations. */
+.random-boss-overlay{
+  animation:none !important;
+  transform:none !important;
+  position:fixed !important;
+  inset:0 !important;
+  z-index:10000 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:18px !important;
+  background:rgba(1,3,7,.94) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  overflow:auto !important;
+}
+.random-boss-overlay[hidden]{
+  display:none !important;
+}
+.random-boss-overlay.is-open{
+  opacity:1 !important;
+  visibility:visible !important;
+}
+
+/* Remove the most fragile v55 visual layers. */
+.random-boss-grid{
+  position:absolute !important;
+  inset:0 !important;
+  transform:none !important;
+  background:
+    linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px),
+    radial-gradient(circle at 50% 50%,rgba(255,45,90,.07),transparent 54%) !important;
+  background-size:42px 42px,42px 42px,100% 100% !important;
+  opacity:.55 !important;
+}
+.random-boss-reticle{
+  display:none !important;
+}
+.random-boss-noise{
+  opacity:.035 !important;
+  animation:none !important;
+}
+.random-boss-scanline{
+  opacity:0 !important;
+  height:1px !important;
+}
+.random-boss-overlay.is-running .random-boss-scanline{
+  opacity:.42 !important;
+  animation:randomBossScanSafe 1.25s linear infinite !important;
+}
+@keyframes randomBossScanSafe{
+  from{top:5%}
+  to{top:95%}
+}
+
+/* Stable centered modal. */
+.random-boss-shell{
+  animation:none !important;
+  position:relative !important;
+  z-index:3 !important;
+  width:min(880px,calc(100vw - 36px)) !important;
+  min-height:0 !important;
+  max-height:calc(100vh - 36px) !important;
+  display:grid !important;
+  grid-template-rows:auto minmax(360px,1fr) auto !important;
+  border:1px solid rgba(255,255,255,.24) !important;
+  background:#050910 !important;
+  box-shadow:0 28px 90px rgba(0,0,0,.62) !important;
+  transform:none !important;
+  overflow:hidden !important;
+}
+.random-boss-overlay.is-open .random-boss-shell,
+.random-boss-overlay.is-impact .random-boss-shell{
+  transform:none !important;
+  animation:none !important;
+}
+
+/* Keep impact, but simplify it to a brief border/flash instead of shaking layout. */
+.random-boss-overlay.is-impact .random-boss-shell{
+  border-color:rgba(255,84,120,.72) !important;
+}
+.random-boss-overlay.is-impact .random-boss-flash{
+  animation:randomBossFlashSafe .18s ease-out !important;
+}
+@keyframes randomBossFlashSafe{
+  0%{opacity:0}
+  35%{opacity:.42}
+  100%{opacity:0}
+}
+
+.random-boss-stage{
+  position:relative !important;
+  min-height:360px !important;
+  display:grid !important;
+  place-items:center !important;
+  padding:30px !important;
+  overflow:hidden !important;
+}
+.random-boss-stage::before,
+.random-boss-stage::after{
+  opacity:.25 !important;
+}
+
+/* Roulette and result occupy the same stable grid cell instead of absolute positioning. */
+.random-boss-roulette,
+.random-boss-result{
+  grid-area:1 / 1 !important;
+  position:relative !important;
+  inset:auto !important;
+  width:min(760px,100%) !important;
+  max-width:100% !important;
+}
+.random-boss-roulette{
+  z-index:2 !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:none !important;
+  filter:none !important;
+}
+.random-boss-result{
+  z-index:3 !important;
+  display:grid !important;
+  grid-template-columns:minmax(220px,38%) minmax(0,1fr) !important;
+  gap:26px !important;
+  align-items:center !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:translateY(8px) !important;
+  filter:none !important;
+}
+.random-boss-overlay.is-revealed .random-boss-result{
+  opacity:1 !important;
+  visibility:visible !important;
+  transform:translateY(0) !important;
+}
+.random-boss-overlay.is-revealed .random-boss-roulette{
+  opacity:0 !important;
+  visibility:hidden !important;
+  transform:none !important;
+  filter:none !important;
+}
+
+.random-boss-roulette h2{
+  font-size:clamp(24px,4vw,48px) !important;
+  text-shadow:-1px 0 rgba(255,49,95,.25),1px 0 rgba(77,198,255,.10) !important;
+}
+.random-boss-art-wrap{
+  width:100% !important;
+  max-width:310px !important;
+  justify-self:center !important;
+}
+.random-boss-info h2{
+  font-size:clamp(22px,3vw,36px) !important;
+}
+.random-boss-head,
+.random-boss-foot{
+  flex:0 0 auto !important;
+}
+.random-boss-foot{
+  border-bottom:0 !important;
+}
+
+/* Mobile: single-column result, guaranteed viewport fit. */
+@media(max-width:760px){
+  .release-random-panel{
+    gap:10px !important;
+  }
+  .release-random-btn{
+    min-height:42px !important;
+  }
+  .random-boss-overlay{
+    padding:9px !important;
+  }
+  .random-boss-shell{
+    width:calc(100vw - 18px) !important;
+    max-height:calc(100vh - 18px) !important;
+    grid-template-rows:auto minmax(0,1fr) auto !important;
+  }
+  .random-boss-stage{
+    min-height:0 !important;
+    padding:20px 14px !important;
+    overflow:auto !important;
+  }
+  .random-boss-result{
+    grid-template-columns:1fr !important;
+    width:min(370px,100%) !important;
+    gap:15px !important;
+    padding:2px !important;
+  }
+  .random-boss-art-wrap{
+    width:min(230px,62vw) !important;
+  }
+  .random-boss-info h2{
+    font-size:clamp(20px,7vw,31px) !important;
+  }
+  .random-boss-meta{
+    margin-top:14px !important;
+  }
+  .random-boss-actions{
+    margin-top:15px !important;
+  }
+}
+
+/* Accessibility remains respected. */
+@media(prefers-reduced-motion:reduce){
+  .random-boss-overlay,
+  .random-boss-shell,
+  .random-boss-result,
+  .random-boss-roulette{
+    transition:none !important;
+    animation:none !important;
+  }
+}
+
+
+/* ===== v57: cursor/GPU compositing fix for RANDOM SELECT =====
+   The site-wide cursor glow uses mix-blend-mode and the stars are rewritten
+   every animation frame. On Chromium/Windows this can conflict with a fixed
+   fullscreen modal and cause the RANDOM SELECT layer to disappear while the
+   pointer is inside the page. Freeze/hide those global reactive layers only
+   while the modal is open.
+*/
+body.random-boss-active .cursor-glow{
+  display:none !important;
+  mix-blend-mode:normal !important;
+}
+body.random-boss-active .noise{
+  display:none !important;
+}
+body.random-boss-active .stars{
+  visibility:hidden !important;
+}
+
+/* Give the modal its own isolated paint/compositing context. */
+.random-boss-overlay{
+  isolation:isolate !important;
+  contain:paint !important;
+}
+
+/* v57 stability pass:
+   Keep the title roulette + lock + brief flash, but remove the extra
+   animated scan/noise layers that add unnecessary full-screen repaints.
+*/
+.random-boss-scanline,
+.random-boss-noise{
+  display:none !important;
+}
+.random-boss-grid{
+  animation:none !important;
+}
+.random-boss-flash{
+  mix-blend-mode:normal !important;
+}
+
+/* Avoid GPU-heavy blur during the result handoff. */
+.random-boss-result,
+.random-boss-roulette{
+  filter:none !important;
+}
+
+
+/* ===== v58: RANDOM SELECT class-collision fix =====
+   IMPORTANT:
+   - body.random-boss-active = modal-open page state
+   - .random-boss-open       = OPEN TRACK button only
+   Keeping these separate prevents :hover/transform styles from ever applying
+   to <body> when the pointer is inside the page.
+*/
+body.random-boss-active{
+  overflow:hidden !important;
+  transform:none !important;
+  display:block !important;
+  padding:0 !important;
+  cursor:auto !important;
+}
+body.random-boss-active:hover{
+  transform:none !important;
+}
+
+
+/* ===== v59: glass-break reveal for RANDOM SELECT =====
+   Pure CSS/JS effect — no external image assets.
+   The layer is pointer-events:none and uses no mix-blend/backdrop-filter,
+   preserving the v58 cursor/class-collision fix.
+*/
+.random-glass-layer{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  pointer-events:none;
+  overflow:hidden;
+  opacity:0;
+  visibility:hidden;
+}
+
+.random-glass-impact{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:24px;
+  height:24px;
+  border:1px solid rgba(255,255,255,.84);
+  border-radius:50%;
+  transform:translate(-50%,-50%) scale(.2);
+  opacity:0;
+}
+
+.random-glass-impact::before,
+.random-glass-impact::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:min(56vw,560px);
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.14) 13%,
+    rgba(255,255,255,.72) 50%,
+    rgba(255,255,255,.14) 87%,
+    transparent
+  );
+  transform-origin:center;
+}
+.random-glass-impact::before{transform:translate(-50%,-50%) rotate(27deg)}
+.random-glass-impact::after{transform:translate(-50%,-50%) rotate(-41deg)}
+
+.random-glass-shard{
+  position:absolute;
+  inset:0;
+  display:block;
+  opacity:0;
+  transform:translate3d(0,0,0) rotate(0) scale(1);
+  transform-origin:50% 50%;
+  background:
+    linear-gradient(
+      128deg,
+      rgba(255,255,255,.025) 0 38%,
+      rgba(255,255,255,.22) 42%,
+      rgba(255,255,255,.045) 48%,
+      rgba(129,175,215,.075) 70%,
+      rgba(255,255,255,.018) 100%
+    );
+  outline:1px solid rgba(224,237,249,.23);
+}
+
+.random-glass-layer.is-breaking{
+  opacity:1;
+  visibility:visible;
+}
+
+.random-glass-layer.is-breaking .random-glass-impact{
+  animation:randomGlassImpact .40s cubic-bezier(.2,.75,.25,1) both;
+}
+
+.random-glass-layer.is-breaking .random-glass-shard{
+  animation:randomGlassShard .76s cubic-bezier(.16,.72,.25,1) var(--glass-delay,0ms) both;
+}
+
+@keyframes randomGlassImpact{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.18);
+  }
+  18%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(.72);
+    box-shadow:0 0 0 0 rgba(255,255,255,.42);
+  }
+  48%{
+    opacity:.86;
+    transform:translate(-50%,-50%) scale(1.3);
+    box-shadow:0 0 0 38px rgba(255,255,255,0);
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(1.8);
+  }
+}
+
+@keyframes randomGlassShard{
+  0%{
+    opacity:0;
+    transform:translate3d(0,0,0) rotate(0deg) scale(1);
+  }
+  8%{
+    opacity:.78;
+  }
+  22%{
+    opacity:.92;
+  }
+  100%{
+    opacity:0;
+    transform:
+      translate3d(var(--glass-tx),var(--glass-ty),0)
+      rotate(var(--glass-rz))
+      scale(.94);
+  }
+}
+
+/* Slight crack echo on the modal itself, without moving the layout. */
+.random-boss-overlay.is-impact .random-boss-shell::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:7;
+  pointer-events:none;
+  background:
+    linear-gradient(33deg,transparent 49.7%,rgba(255,255,255,.26) 50%,transparent 50.3%),
+    linear-gradient(151deg,transparent 49.8%,rgba(255,255,255,.18) 50%,transparent 50.2%);
+  opacity:0;
+  animation:randomGlassCrackEcho .30s ease-out both;
+}
+
+@keyframes randomGlassCrackEcho{
+  0%{opacity:0}
+  18%{opacity:.85}
+  100%{opacity:0}
+}
+
+@media(max-width:760px){
+  .random-glass-shard{
+    outline-color:rgba(224,237,249,.18);
+  }
+  .random-glass-impact::before,
+  .random-glass-impact::after{
+    width:88vw;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .random-glass-layer{
+    display:none !important;
+  }
+}
+
+
+/* ===== v60: glass effect scoped to RANDOM SELECT stage only =====
+   Glass/crack visuals are contained inside the RANDOM SELECT stage.
+   They no longer cover the entire browser/page.
+*/
+.random-boss-stage{
+  isolation:isolate !important;
+}
+
+/* Glass is now relative to the stage, not the fullscreen overlay. */
+.random-boss-stage .random-glass-layer{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:8 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  border-radius:0 !important;
+}
+
+/* Keep all fragments inside the RANDOM SELECT panel area. */
+.random-boss-stage .random-glass-shard{
+  position:absolute !important;
+  inset:0 !important;
+}
+
+/* Disable the old fullscreen flash. The localized crack/glass impact is enough. */
+.random-boss-overlay > .random-boss-flash{
+  display:none !important;
+}
+
+/* Crack echo should stay inside the stage rather than spanning the whole shell/page. */
+.random-boss-overlay.is-impact .random-boss-shell::after{
+  display:none !important;
+}
+.random-boss-overlay.is-impact .random-boss-stage::after{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:7 !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(33deg,transparent 49.72%,rgba(255,255,255,.22) 50%,transparent 50.28%),
+    linear-gradient(151deg,transparent 49.78%,rgba(255,255,255,.15) 50%,transparent 50.22%) !important;
+  opacity:0;
+  animation:randomGlassCrackEcho .30s ease-out both !important;
+}
+
+/* Slightly reduce shard travel because the effect is now panel-local. */
+.random-boss-stage .random-glass-shard{
+  transform-origin:50% 50% !important;
+}
+
+@media(max-width:760px){
+  .random-boss-stage .random-glass-layer{
+    inset:0 !important;
+  }
+}

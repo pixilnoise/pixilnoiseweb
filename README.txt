@@ -270,3 +270,148 @@ Folder structure:
 All HTML references, favicon references, and absolute OGP image URLs were updated
 to the new folder paths. No page design, text, animations, filters, sorting,
 Formspree behavior, release data, or other site functionality was intentionally changed.
+
+
+PIXILNOISE PERSONAL SITE v53 RELEASE ADD
+========================================
+Added RELEASE cards:
+- 氷壁の古城 【from 2025秋M3】
+  BPM 215 / 2025-10-26 / 3:13
+  ARTCORE / RHYTHM GAME / PIANO DRUM & BASS / SCHRANZ
+  pixilnoise x 3Kado_ x Haonawo / COLLAB
+- FINEABLE GRDCANTAGE
+  BPM 292 / 2025-10-26 / 2:51
+  SPEEDCORE / HARDCORE / GABBER
+- ALLENDER
+  BPM 270 / 2026-04-23 / 2:35
+  HARDCORE / SPEEDCORE / ARTCORE / FRENCHCORE / CHIPTUNE / DUBSTEP / KAWAII FUTURE BASS / ???
+  pixilnoise x UNEYSIA / COLLAB
+  Filter categories include MELODIC and EXPERIMENTAL as requested.
+  Uses ARTWORK PENDING until a jacket is supplied.
+
+Added jacket files under assets/releases/:
+- hyohaku_no_kojo.jpg
+- fineable_grdcantage.jpg
+
+All v52 folder organization, CONTACT/Formspree, filters, sorting, OGP, favicon, mobile fixes, and existing release data are preserved.
+
+
+PIXILNOISE PERSONAL SITE v54 RELEASE FLOAT
+==========================================
+- v53 is the content baseline.
+- Added subtle idle floating motion to real song cards on the RELEASE page.
+- Each card uses slightly different phase/duration so the grid does not move in sync.
+- Desktop movement: up to 4px.
+- Mobile movement: up to 2px.
+- COMING SOON placeholders are excluded.
+- Existing hover lift, sort FLIP animation, filters, mobile blur fix, and all other site functions are preserved.
+- Reduced-motion preference disables the floating animation.
+
+
+PIXILNOISE PERSONAL SITE v55 RANDOM SELECT
+===========================================
+- v54 is the baseline.
+- Added a highlighted RANDOM SELECT / TRACK LOTTERY button on RELEASE.
+- Random selection draws from every real RELEASE card, regardless of the active filter.
+- Added a fullscreen rhythm-game boss-style reveal sequence:
+  database scan -> rapid title roulette -> signal lock -> impact flash -> selected track reveal.
+- Final reveal shows jacket (or ARTWORK PENDING), title, artist, BPM, length, date and genre.
+- Added OPEN TRACK, RETRY / REROLL and CLOSE actions.
+- Escape closes the overlay.
+- The same track is avoided on consecutive rerolls when multiple tracks exist.
+- No new image assets or external libraries were added.
+- Reduced-motion accessibility preference skips/limits the animated reveal.
+- Existing v54 card floating, sorting, filtering, mobile blur fix, Formspree, OGP and favicon are preserved.
+
+
+PIXILNOISE PERSONAL SITE v56 RANDOM SELECT FIX
+==============================================
+- Fixed the fullscreen RANDOM SELECT overlay rendering incorrectly.
+- Root cause avoided by moving the fixed modal outside <main>, which has page-load child animations.
+- Simplified the boss reveal layout for greater browser stability.
+- Removed the heavy perspective reticle and layout-shake behavior.
+- Kept the core sequence: scan -> title roulette -> lock -> short flash -> track reveal.
+- RANDOM SELECT button/panel is now more subdued and closer to the site's normal UI.
+- v55 random selection logic, OPEN TRACK, REROLL, CLOSE, and all v54/v53 features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v57 CURSOR COMPOSITING FIX
+===================================================
+- Fixed RANDOM SELECT becoming invisible while the mouse cursor is inside the site.
+- Cause: Chromium/Windows GPU compositing conflict between the global cursor glow
+  (mix-blend-mode), continuously moving cursor-reactive stars, and the fullscreen
+  fixed RANDOM SELECT layer.
+- While RANDOM SELECT is open, the global cursor glow/noise/stars are temporarily
+  hidden/frozen. They return immediately after closing the modal.
+- RANDOM SELECT now gets an isolated paint context.
+- Simplified the fullscreen effect slightly by removing animated scanline/noise
+  layers and blur-based handoff, while preserving:
+  title roulette -> target lock -> brief flash -> selected track result.
+- v56 subdued RANDOM SELECT button and all existing site features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v58 RANDOM SELECT CLASS FIX
+====================================================
+- Exact bug identified and fixed.
+- `random-boss-open` had accidentally been used for BOTH:
+  (1) the BODY modal-open state, and
+  (2) the OPEN TRACK button.
+- Because `.random-boss-open:hover` is a button hover rule, BODY also received
+  a transform whenever the mouse pointer was anywhere inside the website.
+- That transform changed fixed-position/compositing behavior and caused the
+  RANDOM SELECT overlay to disappear while the cursor was inside the page.
+- BODY state was renamed to `random-boss-active`.
+- `.random-boss-open` is now reserved only for the OPEN TRACK button.
+- Existing v57 stability safeguards and all previous site features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v59 GLASS BREAK
+========================================
+- v58 is the stability baseline.
+- Added a glass-shatter style impact to RANDOM SELECT's final reveal.
+- The effect is generated dynamically with CSS polygon shards; no image assets are used.
+- Sequence remains:
+  title roulette -> target lock -> glass impact/shatter -> selected track reveal.
+- 22 lightweight shards break outward from the center with randomized timing/direction.
+- Added a brief central crack/impact ring and crack echo across the modal.
+- The glass layer never receives pointer input and avoids mix-blend-mode/backdrop-filter.
+- v58's BODY/button class-collision fix is preserved.
+- Reduced-motion mode disables the glass animation.
+
+
+PIXILNOISE PERSONAL SITE v60 LOCAL GLASS
+========================================
+- v59 is the baseline.
+- Glass-break visuals are now scoped only to the RANDOM SELECT stage/panel.
+- The glass layer was moved inside `.random-boss-stage`.
+- The previous fullscreen flash was disabled.
+- Crack echo and fragments no longer cover the whole page.
+- v58 cursor/class-collision fix and all existing RANDOM SELECT behavior are preserved.
+
+
+PIXILNOISE PERSONAL SITE v61 UNDERTALE COLLAB RELEASES
+======================================================
+Added:
+- Undertale - MEGALOVANIA .2026 Remix
+  - BPM 240 / 2026-05-09 / 3:47
+  - ARTCORE / HARD ROCK / METAL / HARDCORE
+  - pixilnoise x NekoZe / KyphoXis
+  - COLLAB + REMIX badges
+  - NekoZe / KyphoXis YouTube/X link buttons
+- Under of Styx
+  - BPM 160–235 / 2026-04-07 / 3:57
+  - HARDCORE / UNDERTALE STYLE / DRUM AND BASS / MELODIC
+  - pixilnoise x NekoZe / KyphoXis
+  - COLLAB badge
+  - NekoZe / KyphoXis YouTube/X link buttons
+
+Collaborator links:
+- YouTube: https://www.youtube.com/@KyphoX1s
+- X: https://x.com/_4vvay
+
+Added assets:
+- assets/releases/undertale_megalovania_2026_remix.png
+- assets/releases/under_of_styx.png
+
+All v60 RANDOM SELECT glass behavior, filters, sort, floating cards, Formspree,
+OGP, favicon, and previous releases are preserved.
