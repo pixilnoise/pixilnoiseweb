@@ -218,3 +218,37 @@ PIXILNOISE PERSONAL SITE v49 COLLAB LINKS
 - Added the same collaborator-link UI on HOME and RELEASE.
 - Main card click still opens the original Undertale remix video.
 - Existing v48 mobile RELEASE blur fix, Formspree CONTACT, OGP and favicon are preserved.
+
+
+PIXILNOISE PERSONAL SITE v50 RELEASE BATCH
+==========================================
+Added 5 releases:
+- 朝の光の中で (音ゲー Ver.) 【pixilnoise's remix】 MONTAGEM HIKARI
+- 果ての始発物語
+- Evolve World C
+- BITFLOWER
+- 平凡なクリスマス
+
+Release categories:
+- MONTAGEM HIKARI: hard / vocal / pop / remix (melodic intentionally excluded)
+- 果ての始発物語: hard only (melodic intentionally excluded)
+- Evolve World C: hard / melodic
+- BITFLOWER: hard / melodic
+- 平凡なクリスマス: pop / melodic
+
+Other changes:
+- Added REMIX badge to MONTAGEM HIKARI.
+- Added new COMMISSION badge type and applied it to 平凡なクリスマス.
+- BITFLOWER uses a dedicated ARTWORK PENDING card until its jacket is supplied.
+- Supplied artwork files were mapped in order to releases 1, 2, 3, and 5.
+- Existing v49 collaborator links, v48 mobile blur fix, CONTACT/Formspree, OGP and favicon are preserved.
+
+
+PIXILNOISE PERSONAL SITE v51 ACHIEVEMENT FIX
+============================================
+- v50 remains the content baseline.
+- Added "平凡なクリスマス" to HOME > ACHIEVEMENT LOG > 楽曲制作.
+- Achievement text: selected as the theme song for a university Christmas event.
+- Added a direct YouTube link from the achievement detail.
+- University name is intentionally not specified.
+- All v50 release cards and existing site features are preserved.
