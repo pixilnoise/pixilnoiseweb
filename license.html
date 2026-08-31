@@ -40,7 +40,7 @@
   </div>
 </div><button class="mobile-menu-toggle" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="メニューを開く">
   <span>MENU</span><i></i><i></i>
-</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="active" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
+</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="active" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
   <span class="theme-toggle-track" aria-hidden="true"><i></i></span>
   <span class="theme-toggle-copy"><b data-theme-label>DARK</b><small>MODE</small></span>
 </button></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
@@ -49,7 +49,7 @@
       <span>MENU // NAVIGATION</span>
       <button class="mobile-menu-close" type="button" aria-label="メニューを閉じる">CLOSE ×</button>
     </div>
-    <nav class="mobile-menu-nav" aria-label="Mobile navigation"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="active" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav>
+    <nav class="mobile-menu-nav" aria-label="Mobile navigation"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="active" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav>
     <div class="mobile-menu-socials" aria-label="pixilnoise social links">
     <a class="social-link youtube" href="https://www.youtube.com/@pix22C3" target="_blank" rel="noopener noreferrer" aria-label="MUSIC CH // YOUTUBE"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3v11.2a4 4 0 1 1-2-3.46V5h10v9.2a4 4 0 1 1-2-3.46V3H9zm2 2v5h4V5h-4z"/></svg></a>
     <a class="social-link youtube" href="https://www.youtube.com/@pixilnoise3" target="_blank" rel="noopener noreferrer" aria-label="GAME CH // YOUTUBE"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 6h10c2.9 0 4.8 2.3 5.5 5.4l1 4.5c.4 1.8-.9 3.6-2.7 3.6-1 0-1.9-.5-2.4-1.3L16.7 16H7.3l-1.7 2.2C5 19 4.1 19.5 3.1 19.5c-1.8 0-3.1-1.8-2.7-3.6l1-4.5C2.1 8.3 4.1 6 7 6zm1 3H6v2H4v2h2v2h2v-2h2v-2H8V9zm7.5 1.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5zm3-2a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg></a>
@@ -389,5 +389,33 @@ document.querySelectorAll('.digital').forEach(el=>{
 </script>
 
 <div class="theme-glitch-overlay" aria-hidden="true"></div>
+<script>
+(function(){
+  function resetHistoryTransition(){
+    const overlay=document.querySelector('.page-transition');
+
+    // Chrome can restore a page from the Back/Forward Cache with the
+    // previous `is-leaving` state still attached. Clear it immediately.
+    document.body.classList.remove('is-leaving');
+
+    if(overlay){
+      overlay.style.transition='none';
+      overlay.style.opacity='0';
+      overlay.style.pointerEvents='none';
+
+      // Force the reset to paint before handing control back to normal CSS.
+      void overlay.offsetWidth;
+      requestAnimationFrame(()=>{
+        overlay.style.transition='';
+        overlay.style.opacity='';
+        overlay.style.pointerEvents='';
+      });
+    }
+  }
+
+  // `pageshow` fires for normal loads and, importantly, BFCache restores.
+  window.addEventListener('pageshow',resetHistoryTransition);
+})();
+</script>
 <script src="assets/js/theme.js"></script>
 </body></html>

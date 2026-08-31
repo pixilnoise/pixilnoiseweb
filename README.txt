@@ -470,3 +470,104 @@ PIXILNOISE PERSONAL SITE v65 LIGHT CONTRAST / DARK DEFAULT
   DARK once even if an older version had LIGHT saved. After the user toggles,
   the new preference persists normally across pages.
 - v64 star density and all v62/v63 functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v65 BACK BUTTON FIX
+============================================
+- v65 remains the baseline/latest version.
+- Fixed Chrome Back / Forward navigation occasionally restoring a fully dark page.
+- Cause: Chrome's BFCache can restore the previous page while `body.is-leaving`
+  is still active, leaving the fullscreen `.page-transition` overlay visible.
+- Added a `pageshow` reset on every page.
+- On history restoration, `is-leaving` is removed and the transition overlay is
+  forced transparent immediately, then returned to its normal CSS behavior.
+- Normal internal-page fade-out transitions remain unchanged.
+- All v65 DARK/LIGHT, RELEASE, RANDOM SELECT, Formspree, OGP, favicon and other
+  functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v65 GDG RELEASE / ACHIEVEMENT
+=====================================================
+- Base: v65 Back Button Fix.
+- Added RELEASE: Google future bass
+  BPM 160 / LENGTH 0:50 / 2026/XX/XX
+  KAWAII FUTURE BASS / POP
+  COMMISSION badge
+  YouTube: https://youtu.be/64CTIaOr88k
+- Added supplied jacket artwork as assets/releases/google_future_bass.png
+- Added HOME achievement:
+  Google Developer Groups 関連イベント
+  イベントオープニング楽曲 制作
+  Opening theme music production for a Google Developer Groups event.
+- The achievement also links to the supplied YouTube URL.
+- Exact event date was not provided; display stays 2026/XX/XX and data-date is blank.
+- Previous v65 Back/Forward fix is preserved.
+
+
+PIXILNOISE PERSONAL SITE v66 WORKS PAGE
+=======================================
+- Base: v65 GDG release + Chrome Back/Forward fix.
+- Added WORKS / 実績 page: works.html.
+- Navigation order: EVENT → WORKS → 依頼.
+- HOME remains unchanged and keeps the current two representative achievements.
+- WORKS cards use a 1:1 artwork on the left and project details on the right.
+- Added:
+  1. Google Developer Groups 関連イベント — Event opening music production
+  2. 平凡なクリスマス — University Christmas event theme song
+- Both cards link to their YouTube project pages.
+- DARK/LIGHT, RELEASE, RANDOM SELECT, stars, Formspree, OGP/favicon,
+  and Chrome Back/Forward fix are preserved.
+
+
+PIXILNOISE PERSONAL SITE v67 WORKS READABILITY
+==============================================
+- Base: v66 WORKS page.
+- Increased the small secondary text on WORKS:
+  meta tags, English descriptions, category tags, project-link labels,
+  artwork work-code labels and section helper copy.
+- Slightly increased muted-text contrast in both DARK and LIGHT modes.
+- Mobile uses separately increased sizes so the cards remain compact.
+- Layout and all previous functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v68 WORKS TWO-COLUMN TEST
+==================================================
+- Base: v67 WORKS readability version.
+- WORKS is split horizontally on desktop:
+  LEFT  = GENERAL WORKS
+  RIGHT = RHYTHM GAME WORKS
+- Existing GDG and 平凡なクリスマス achievements are kept under GENERAL WORKS.
+- No rhythm-game achievements were invented; the right column currently shows
+  a designed archive placeholder until actual adoption records are added.
+- At <=1080px the two categories stack vertically for readability.
+- HOME representative achievements are unchanged.
+- All prior theme, navigation, RELEASE, RANDOM SELECT and Chrome back-button fixes are preserved.
+
+
+PIXILNOISE PERSONAL SITE v69 WORKS WIDE
+=======================================
+- Base: v68 horizontal two-column WORKS test.
+- Expanded WORKS desktop content width from 1180px to a maximum of 1480px.
+- Increased the gap and visual scale of GENERAL / RHYTHM GAME columns.
+- Enlarged compact WORKS card artwork from 174px to 196px on wide desktop.
+- Increased title, meta tags, Japanese/English copy, category tags and project-link text.
+- RHYTHM GAME archive placeholder was enlarged to balance the GENERAL column.
+- Two-column layout now remains active down to 980px; below that it stacks vertically.
+- Mobile remains responsive and readable.
+- All previous content and functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v70 RHYTHM GAME WORK
+==============================================
+- Base: v69 wide two-column WORKS layout.
+- Added first RHYTHM GAME WORK:
+  raythm 第1回楽曲公募
+  SpaceSignal
+  楽曲公募 採用
+  Selected for the 1st raythm Music Contest.
+  COMING SOON
+- Uses the supplied green icon as temporary square artwork:
+  assets/releases/spacesignal_placeholder.png
+- No external link was added because the track is not public yet.
+- RHYTHM GAME WORKS count now shows 01 PROJECT.
+- Existing GENERAL WORKS and all previous site functionality are preserved.
