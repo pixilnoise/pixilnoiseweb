@@ -571,3 +571,23 @@ PIXILNOISE PERSONAL SITE v70 RHYTHM GAME WORK
 - No external link was added because the track is not public yet.
 - RHYTHM GAME WORKS count now shows 01 PROJECT.
 - Existing GENERAL WORKS and all previous site functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v71 ARCANEST RELEASE
+==============================================
+- Base: v70 RHYTHM GAME WORK.
+- Added RELEASE:
+  ARCANEST 【from 星骸創世アルカディア ep】
+  YouTube: https://youtu.be/ynapG89bZLQ
+  BPM 190
+  2026/07/20
+  ARTCORE / HI-TECH / HARD RENAISSANCE / MELODIC
+  LENGTH 3:16
+  ALBUM badge/category
+- ARCANEST reuses the 星骸創世アルカディア EP artwork:
+  assets/releases/arcadia_ep.png
+- Updated the existing 星骸創世アルカディア title to:
+  星骸創世アルカディア 【from 星骸創世アルカディア ep】
+- Existing EP SoundCloud URL remains:
+  https://on.soundcloud.com/74Iy4SH6qjo4Yr2tUO
+- All v70 WORKS/RHYTHM GAME achievements and previous site features are preserved.
