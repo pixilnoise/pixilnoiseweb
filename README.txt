@@ -591,3 +591,15 @@ PIXILNOISE PERSONAL SITE v71 ARCANEST RELEASE
 - Existing EP SoundCloud URL remains:
   https://on.soundcloud.com/74Iy4SH6qjo4Yr2tUO
 - All v70 WORKS/RHYTHM GAME achievements and previous site features are preserved.
+
+
+PIXILNOISE PERSONAL SITE v71 WORKS REVEAL FIX
+==============================================
+- Base: v71 ARCANEST release version.
+- Fixed WORKS cards appearing abruptly when entering the viewport.
+- Cause: WORKS card-specific transition CSS was overriding the shared
+  reveal-on-scroll opacity / transform / blur transition.
+- Restored the same smooth reveal timing/easing used by the REQUEST page.
+- Added a small stagger between WORKS cards for a softer sequence.
+- Hover motion, two-column WORKS layout, SpaceSignal, ARCANEST and all
+  previous functionality are preserved.
