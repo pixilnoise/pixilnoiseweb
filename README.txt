@@ -603,3 +603,22 @@ PIXILNOISE PERSONAL SITE v71 WORKS REVEAL FIX
 - Added a small stagger between WORKS cards for a softer sequence.
 - Hover motion, two-column WORKS layout, SpaceSignal, ARCANEST and all
   previous functionality are preserved.
+
+
+PIXILNOISE PERSONAL SITE v72 SHATTERED WORLD
+=============================================
+- Base: v71 WORKS reveal fix.
+- Added new release:
+  崩壊した世界で (Shattered World Ξ)
+  YouTube: https://youtu.be/QFfQT0P9VlU?list=RDQFfQT0P9VlU
+  BPM 265
+  2026/09/02
+  ARTCORE / HI SPEED DUBSTEP / SPEEDCORE / MELODIC / VOCALOID
+  LENGTH 3:21
+- Categories: HARD / MELODIC / VOCAL.
+- Added supplied artwork:
+  assets/releases/shattered_world_e.jpg
+- Updated HOME LATEST RELEASE to Shattered World Ξ.
+- Updated HOME latest works to keep the newest four releases.
+- Existing ARCANEST, SpaceSignal WORKS, WORKS reveal fix, DARK/LIGHT,
+  RANDOM SELECT and Chrome Back/Forward fix are preserved.
