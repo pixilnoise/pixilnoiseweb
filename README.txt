@@ -643,3 +643,28 @@ PIXILNOISE PERSONAL SITE v73 JA / EN LANGUAGE SWITCH
   OPEN TRACK button = random-boss-open
 - Chrome Back/Forward BFCache pageshow fix is preserved on every page.
 - WORKS smooth opacity/translate/blur reveal behavior is preserved.
+
+
+[v74 Kinetic MV design]
+Base: v73 JA/EN switch. Original pages, links and functional scripts preserved.
+Added: assets/css/motion.css and assets/js/motion.js.
+HOME: silent artwork crossfades, animated perspective frames and pointer parallax.
+All pages: heading motion, card hover and navigation accents.
+Supports light/dark, responsive layout and reduced-motion preferences.
+Upload the entire extracted contents together, keeping the assets directory.
+No build step or additional dependency required. Open index.html to preview.
+Validation: original HTML content/scripts compared; local references and JS syntax checked.
+Browser visual/interaction testing has not been performed.
+
+
+[v75 Interactive 3D MV]
+Replaces v74 HOME background with a real-time WebGL 3D scene.
+Solid octagonal gates, floating faceted core and orbiting fragments.
+Scroll: camera roll, gate twist, fragment expansion. Mouse: camera parallax and core orientation.
+The scene continues behind HOME sections. Other routes retain v74 design.
+No audio playback, external CDN, dependencies or build step.
+Mobile resolution capped; hidden-tab rendering paused; reduced motion renders a static frame.
+If WebGL is unavailable, the release artwork is used as a static fallback.
+Validation: GLES2 shader compile/link and dark/light rendered frames checked.
+Original HTML, language/theme scripts and base CSS unchanged from v74.
+Full browser layout/interaction testing has not been performed.
