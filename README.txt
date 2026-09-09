@@ -622,3 +622,24 @@ PIXILNOISE PERSONAL SITE v72 SHATTERED WORLD
 - Updated HOME latest works to keep the newest four releases.
 - Existing ARCANEST, SpaceSignal WORKS, WORKS reveal fix, DARK/LIGHT,
   RANDOM SELECT and Chrome Back/Forward fix are preserved.
+
+
+PIXILNOISE PERSONAL SITE v73 JA / EN LANGUAGE SWITCH
+=====================================================
+- Base: v72 SHATTERED WORLD.
+- Added a JA / EN site-language switch beside the existing DARK / LIGHT control.
+- Language choice persists across pages with localStorage key:
+  pixilnoise-language-v1
+- Added shared controller:
+  assets/js/lang.js
+- Japanese UI/body copy on HOME, RELEASE, STORE, EVENT, WORKS, REQUEST,
+  LICENSE, CONTACT and ABOUT switches to English.
+- Proper release/song titles are intentionally kept in their official/original form.
+- CONTACT validation/send-status messages now follow the selected language.
+- Existing bilingual helper lines are de-duplicated in English mode where needed.
+- DARK / LIGHT remains independent and keeps storage key pixilnoise-theme-v2.
+- RANDOM SELECT class split is preserved:
+  body state = random-boss-active
+  OPEN TRACK button = random-boss-open
+- Chrome Back/Forward BFCache pageshow fix is preserved on every page.
+- WORKS smooth opacity/translate/blur reveal behavior is preserved.

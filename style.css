@@ -6152,3 +6152,125 @@ html[data-theme="light"] .works-open-pending b{
     transition:none !important;
   }
 }
+
+
+/* ===== v73: JA / EN site language switch ===== */
+.header-controls{
+  flex:0 0 auto;
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+.language-toggle{
+  flex:0 0 auto;
+  min-width:82px;
+  height:42px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:0 10px;
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(5,9,15,.74);
+  color:#c7d0dc;
+  cursor:pointer;
+  font:300 8px/1 "Noto Sans JP","Yu Gothic",sans-serif;
+  letter-spacing:.1em;
+  transition:border-color .22s ease,background .22s ease,color .22s ease,transform .22s ease;
+}
+.language-toggle:hover{
+  border-color:rgba(255,255,255,.52);
+  background:rgba(255,255,255,.035);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.language-toggle-main{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-family:Orbitron,"Noto Sans JP",sans-serif;
+}
+.language-toggle-main b{
+  color:#596577;
+  font-size:8px;
+  font-weight:500;
+  letter-spacing:.08em;
+  transition:color .2s ease,opacity .2s ease;
+}
+.language-toggle-main i{
+  color:#343d4a;
+  font-style:normal;
+  font-size:7px;
+}
+.language-toggle small{
+  color:#596577;
+  font-size:6px;
+  letter-spacing:.16em;
+}
+html[data-lang="ja"] .language-toggle .lang-ja,
+html[data-lang="en"] .language-toggle .lang-en{
+  color:#f2f5fb;
+}
+html.language-switching main,
+html.language-switching footer{
+  animation:languagePulse .24s ease both;
+}
+@keyframes languagePulse{
+  0%{opacity:1}
+  45%{opacity:.78}
+  100%{opacity:1}
+}
+html[data-theme="light"] .language-toggle{
+  border-color:rgba(26,30,36,.22);
+  background:rgba(231,233,235,.72);
+  color:#30373f;
+}
+html[data-theme="light"] .language-toggle:hover{
+  border-color:rgba(26,30,36,.42);
+  background:rgba(205,209,213,.78);
+  color:#11151a;
+}
+html[data-theme="light"] .language-toggle-main b,
+html[data-theme="light"] .language-toggle small{color:#68717a}
+html[data-theme="light"][data-lang="ja"] .language-toggle .lang-ja,
+html[data-theme="light"][data-lang="en"] .language-toggle .lang-en{color:#11151a}
+
+/* Existing pages sometimes include an English support line under Japanese copy.
+   In English mode, keep only the dedicated English line to avoid duplication. */
+html[data-lang="en"] .works-jp,
+html[data-lang="en"] .request-strength-inline > p,
+html[data-lang="en"] .contact-pagehero > p.delayed.d3{
+  display:none !important;
+}
+
+@media(max-width:900px){
+  .site-header .header-controls{
+    order:1;
+    gap:6px;
+    margin-left:auto;
+  }
+  .site-header .theme-toggle{
+    order:initial;
+  }
+  .site-header .language-toggle{
+    width:58px;
+    min-width:58px;
+    height:42px;
+    padding:0 6px;
+  }
+  .site-header .language-toggle small{display:none}
+  .site-header .mobile-menu-toggle{order:2}
+}
+@media(max-width:430px){
+  .site-header{gap:8px !important;padding:0 12px !important}
+  .site-header .brand img.logo{width:132px !important}
+  .site-header .header-controls{gap:4px}
+  .site-header .language-toggle{width:52px;min-width:52px}
+  .site-header .theme-toggle{width:38px;min-width:38px}
+  .site-header .mobile-menu-toggle{width:68px}
+}
+@media(prefers-reduced-motion:reduce){
+  html.language-switching main,
+  html.language-switching footer{animation:none !important}
+}

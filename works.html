@@ -7,6 +7,17 @@
     document.documentElement.dataset.theme = 'dark';
   }
 })();
+</script><script>
+(function(){
+  try{
+    var lang=localStorage.getItem('pixilnoise-language-v1') === 'en' ? 'en' : 'ja';
+    document.documentElement.dataset.lang=lang;
+    document.documentElement.lang=lang;
+  }catch(_){
+    document.documentElement.dataset.lang='ja';
+    document.documentElement.lang='ja';
+  }
+})();
 </script><link rel="stylesheet" href="style.css">
 <!-- OGP / FAVICON START -->
 <meta name="description" content="pixilnoiseの実績・案件・採用楽曲一覧。イベントテーマソング、オープニング楽曲などの制作実績を掲載しています。">
@@ -40,10 +51,13 @@
   </div>
 </div><button class="mobile-menu-toggle" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="メニューを開く">
   <span>MENU</span><i></i><i></i>
-</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="active" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
+</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="active" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><div class="header-controls"><button class="language-toggle" type="button" data-language-toggle aria-pressed="false" aria-label="Switch to English">
+  <span class="language-toggle-main" aria-hidden="true"><b class="lang-ja">JA</b><i>/</i><b class="lang-en">EN</b></span>
+  <small>LANG</small>
+</button><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
   <span class="theme-toggle-track" aria-hidden="true"><i></i></span>
   <span class="theme-toggle-copy"><b data-theme-label>DARK</b><small>MODE</small></span>
-</button></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
+</button></div></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
     <div class="mobile-menu-head">
       <span>MENU // NAVIGATION</span>
@@ -303,5 +317,5 @@ document.querySelectorAll('.digital').forEach(el=>{
   window.addEventListener('pageshow',resetHistoryTransition);
 })();
 </script>
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/lang.js"></script><script src="assets/js/theme.js"></script>
 </body></html>

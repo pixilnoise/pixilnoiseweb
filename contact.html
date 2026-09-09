@@ -7,6 +7,17 @@
     document.documentElement.dataset.theme = 'dark';
   }
 })();
+</script><script>
+(function(){
+  try{
+    var lang=localStorage.getItem('pixilnoise-language-v1') === 'en' ? 'en' : 'ja';
+    document.documentElement.dataset.lang=lang;
+    document.documentElement.lang=lang;
+  }catch(_){
+    document.documentElement.dataset.lang='ja';
+    document.documentElement.lang='ja';
+  }
+})();
 </script><link rel="stylesheet" href="style.css">
 <!-- OGP / FAVICON START -->
 <meta name="description" content="pixilnoise Official Website. Music / Sound Design / Rhythm Game / Releases / Commissions.">
@@ -40,10 +51,13 @@
   </div>
 </div><button class="mobile-menu-toggle" type="button" aria-controls="mobileMenu" aria-expanded="false" aria-label="メニューを開く">
   <span>MENU</span><i></i><i></i>
-</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="active" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
+</button><nav class="nav"><a class="" href="index.html">HOME<small>TOP / RELEASE</small></a><a class="" href="release.html">RELEASE<small>ALL WORKS</small></a><a class="" href="store.html">STORE<small>MUSIC / DATA</small></a><a class="" href="event.html">EVENT<small>EVENTS</small></a><a class="" href="works.html">WORKS<small>実績</small></a><a class="" href="request.html">依頼<small>REQUEST</small></a><a class="" href="license.html">LICENSE<small>RIGHTS / TERMS</small></a><a class="active" href="contact.html">CONTACT<small>FORM / DM</small></a><a class="" href="about.html">ABOUT<small>PROFILE</small></a></nav><div class="header-controls"><button class="language-toggle" type="button" data-language-toggle aria-pressed="false" aria-label="Switch to English">
+  <span class="language-toggle-main" aria-hidden="true"><b class="lang-ja">JA</b><i>/</i><b class="lang-en">EN</b></span>
+  <small>LANG</small>
+</button><button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="ライトモードに切り替える / Switch to light mode">
   <span class="theme-toggle-track" aria-hidden="true"><i></i></span>
   <span class="theme-toggle-copy"><b data-theme-label>DARK</b><small>MODE</small></span>
-</button></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
+</button></div></header><div class="mobile-menu-panel" id="mobileMenu" aria-hidden="true">
   <div class="mobile-menu-inner">
     <div class="mobile-menu-head">
       <span>MENU // NAVIGATION</span>
@@ -249,28 +263,29 @@ document.querySelectorAll('.digital').forEach(el=>{
   const cooldownMs = 30000;
   let cooldownTimer = 0;
   let sending = false;
+  const t = (ja, en) => window.pixilnoiseText ? window.pixilnoiseText(ja, en) : ja;
 
   const fields = {
     name: {
       el: nameField,
       error: document.getElementById('contactNameError'),
-      required: '名前 / 名義を入力してください。 / Please enter your name or creator name.'
+      required: () => t('名前 / 名義を入力してください。', 'Please enter your name or creator name.')
     },
     email: {
       el: mailField,
       error: document.getElementById('contactMailError'),
-      required: 'メールアドレスを入力してください。 / Please enter your email address.',
-      invalid: '正しいメールアドレス形式で入力してください。 / Please enter a valid email address.'
+      required: () => t('メールアドレスを入力してください。', 'Please enter your email address.'),
+      invalid: () => t('正しいメールアドレス形式で入力してください。', 'Please enter a valid email address.')
     },
     subject: {
       el: subject,
       error: document.getElementById('contactSubjectError'),
-      required: '件名を入力してください。 / Please enter a subject.'
+      required: () => t('件名を入力してください。', 'Please enter a subject.')
     },
     message: {
       el: messageField,
       error: document.getElementById('contactMessageError'),
-      required: 'メッセージを入力してください。 / Please enter your message.'
+      required: () => t('メッセージを入力してください。', 'Please enter your message.')
     }
   };
 
@@ -369,9 +384,9 @@ document.querySelectorAll('.digital').forEach(el=>{
     let error = '';
 
     if(!value){
-      error = config.required;
+      error = typeof config.required === 'function' ? config.required() : config.required;
     }else if(key === 'email' && !isValidEmail(value)){
-      error = config.invalid;
+      error = typeof config.invalid === 'function' ? config.invalid() : config.invalid;
     }
 
     setFieldError(config, error);
@@ -392,7 +407,7 @@ document.querySelectorAll('.digital').forEach(el=>{
     });
 
     if(!valid){
-      status.textContent = '入力内容を確認してください。 / Please check the highlighted fields.';
+      status.textContent = t('入力内容を確認してください。', 'Please check the highlighted fields.');
       status.classList.add('is-error');
       status.classList.remove('is-success');
       if(firstInvalid) firstInvalid.focus();
@@ -409,7 +424,7 @@ document.querySelectorAll('.digital').forEach(el=>{
   });
 
   function showSendError(message){
-    status.textContent = message || '送信に失敗しました。 / Failed to send your message.';
+    status.textContent = message || t('送信に失敗しました。', 'Failed to send your message.');
     status.classList.add('is-error');
     status.classList.remove('is-success');
   }
@@ -421,7 +436,7 @@ document.querySelectorAll('.digital').forEach(el=>{
     const remaining = cooldownRemaining();
     if(remaining > 0){
       const seconds = Math.ceil(remaining / 1000);
-      status.textContent = `再送信は ${seconds} 秒後に可能です。 / You can send again in ${seconds} seconds.`;
+      status.textContent = t(`再送信は ${seconds} 秒後に可能です。`, `You can send again in ${seconds} seconds.`);
       status.classList.add('is-error');
       status.classList.remove('is-success');
       updateSubmitState();
@@ -431,7 +446,7 @@ document.querySelectorAll('.digital').forEach(el=>{
     if(!validateAll()) return;
 
     setSending(true);
-    status.textContent = '送信しています… / Sending…';
+    status.textContent = t('送信しています…', 'Sending…');
     status.classList.remove('is-error', 'is-success');
 
     try{
@@ -453,7 +468,7 @@ document.querySelectorAll('.digital').forEach(el=>{
       }
 
       startCooldown();
-      status.textContent = '送信完了しました。 / Message sent successfully.';
+      status.textContent = t('送信完了しました。', 'Message sent successfully.');
       status.classList.add('is-success');
       status.classList.remove('is-error');
       successPanel.hidden = false;
@@ -467,7 +482,7 @@ document.querySelectorAll('.digital').forEach(el=>{
       Object.values(fields).forEach(config=>setFieldError(config, ''));
     }catch(error){
       console.error('Contact form error:', error);
-      showSendError('送信に失敗しました。通信環境を確認して、もう一度お試しください。 / Failed to send. Please check your connection and try again.');
+      showSendError(t('送信に失敗しました。通信環境を確認して、もう一度お試しください。', 'Failed to send. Please check your connection and try again.'));
     }finally{
       setSending(false);
     }
@@ -483,9 +498,9 @@ document.querySelectorAll('.digital').forEach(el=>{
       const remaining = cooldownRemaining();
       if(remaining > 0){
         const seconds = Math.ceil(remaining / 1000);
-        status.textContent = `再送信は ${seconds} 秒後に可能です。 / You can send again in ${seconds} seconds.`;
+        status.textContent = t(`再送信は ${seconds} 秒後に可能です。`, `You can send again in ${seconds} seconds.`);
       }else{
-        status.textContent = 'このページから直接送信できます。 / You can send directly from this page.';
+        status.textContent = t('このページから直接送信できます。', 'You can send directly from this page.');
       }
       status.classList.remove('is-error', 'is-success');
       if(preset) subject.value = preset;
@@ -558,5 +573,5 @@ document.querySelectorAll('.digital').forEach(el=>{
   window.addEventListener('pageshow',resetHistoryTransition);
 })();
 </script>
-<script src="assets/js/theme.js"></script>
+<script src="assets/js/lang.js"></script><script src="assets/js/theme.js"></script>
 </body></html>

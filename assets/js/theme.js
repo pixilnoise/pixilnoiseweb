@@ -22,11 +22,12 @@
       const isLight = theme === 'light';
       if(label) label.textContent = isLight ? 'LIGHT' : 'DARK';
       btn.setAttribute('aria-pressed', String(isLight));
+      const isEnglish = root.dataset.lang === 'en';
       btn.setAttribute(
         'aria-label',
         isLight
-          ? 'ダークモードに切り替える / Switch to dark mode'
-          : 'ライトモードに切り替える / Switch to light mode'
+          ? (isEnglish ? 'Switch to dark mode' : 'ダークモードに切り替える')
+          : (isEnglish ? 'Switch to light mode' : 'ライトモードに切り替える')
       );
     });
   }
@@ -69,5 +70,9 @@
     document.querySelectorAll('[data-theme-toggle]').forEach(btn=>{
       btn.addEventListener('click', toggleTheme);
     });
+  });
+
+  window.addEventListener('pixilnoise:languagechange', ()=>{
+    updateButtons(root.dataset.theme === 'light' ? 'light' : 'dark');
   });
 })();
