@@ -5,7 +5,7 @@ html[data-theme="light"]{--motion-accent:#315783;--motion-ink:49,87,131}
 .hero:before{display:none}
 .mv-stage{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:#03060c}
 .mv-art{position:absolute;inset:-8%;background-position:75% 45%;background-size:cover;filter:grayscale(1) contrast(1.2);opacity:0;animation:mvArtwork 36s linear infinite;will-change:transform,opacity}
-.mv-art.a{background-image:url('../releases/shattered_world_e.jpg')}
+.mv-art.a{background-image:url('../releases/jcore_tte_kou_tsukureba_iinoka.png')}
 .mv-art.b{background-image:url('../releases/dubstop.jpg');animation-delay:-24s}
 .mv-art.c{background-image:url('../releases/kesshoku_record.jpg');animation-delay:-12s}
 .mv-stage:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#03060cf5 0%,#03060cce 36%,#03060c40 78%),linear-gradient(0deg,#03060c,transparent 45%)}

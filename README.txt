@@ -668,3 +668,20 @@ If WebGL is unavailable, the release artwork is used as a static fallback.
 Validation: GLES2 shader compile/link and dark/light rendered frames checked.
 Original HTML, language/theme scripts and base CSS unchanged from v74.
 Full browser layout/interaction testing has not been performed.
+
+PIXILNOISE PERSONAL SITE v76 JCORE RELEASE
+============================================
+- Base: v75 Interactive 3D MV.
+- Added new release:
+  Jcoreってこう作ればいいのか
+  YouTube: https://youtu.be/b2RIRwc6P-I
+  BPM 170
+  2026/09/16
+  J-CORE / POP / MELODIC / HI-TECH / FUTURE BASS
+  LENGTH 2:31
+- Categories: HARD / MELODIC / POP.
+- Added supplied artwork:
+  assets/releases/jcore_tte_kou_tsukureba_iinoka.png
+- Updated HOME LATEST RELEASE to the new track.
+- Updated HOME latest works to keep the newest four releases.
+- v75 WebGL 3D MV, JA/EN, DARK/LIGHT, RANDOM SELECT and existing releases are preserved.
