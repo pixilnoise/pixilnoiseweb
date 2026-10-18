@@ -39,6 +39,8 @@
 <link rel="apple-touch-icon" href="assets/branding/favicon.png">
 <!-- OGP / FAVICON END -->
 <link rel="stylesheet" href="assets/css/motion.css">
+<style>
+</style>
 </head><body class="page-ready release-page"><div class="page-transition"></div><div class="stars" id="stars"></div><div class="cursor-glow" id="cursorGlow"></div><div class="noise"></div><header class="site-header">
 <div class="brand-area">
   <a class="brand" href="index.html"><img class="logo" src="assets/branding/assets_logo.png" alt="pixilnoise"></a>
@@ -621,6 +623,39 @@
     </a>
 
     <a class="release-library-card reveal-on-scroll card-float release-external-link"
+       data-categories="hard melodic"
+       data-bpm="240"
+       data-date="2026-04-08"
+       data-duration="146"
+       href="https://youtu.be/pI9oTeRJgiw"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Primordial World BをYouTubeで聴く">
+      <div class="release-library-art release-library-art-image">
+        <div class="jacket-ui-frame">
+          <span class="jacket-ui-code" aria-hidden="true">ARTWORK // 23</span>
+          <span class="jacket-ui-corner tl" aria-hidden="true"></span>
+          <span class="jacket-ui-corner tr" aria-hidden="true"></span>
+          <span class="jacket-ui-corner bl" aria-hidden="true"></span>
+          <span class="jacket-ui-corner br" aria-hidden="true"></span>
+          <img src="assets/releases/primordial_world_b.png" alt="Primordial World B ジャケット">
+        </div>
+        <span class="release-open-mark">YOUTUBE ↗</span>
+      </div>
+      <div class="release-library-divider"></div>
+      <div class="release-library-info">
+        <div class="release-library-meta-top">
+          <span class="release-bpm">BPM 240</span>
+          <span class="release-length">LENGTH 2:26</span>
+          <span class="release-date">2026/04/08</span>
+          <span class="release-genre">MELODIC / RHYTHM GAME</span>
+        </div>
+        <h3>Primordial World B</h3>
+        <p>pixilnoise</p>
+      </div>
+    </a>
+
+    <a class="release-library-card reveal-on-scroll card-float release-external-link"
        data-categories="pop melodic"
        data-bpm="140"
        data-date="2026-03-13"
@@ -654,6 +689,40 @@
       </div>
     </a>
 
+
+
+    <a class="release-library-card reveal-on-scroll card-float release-external-link"
+       data-categories="hard melodic"
+       data-bpm="248"
+       data-date="2026-03-03"
+       data-duration="131"
+       href="https://youtu.be/u3YC9muJP30"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="cataclysm world AをYouTubeで聴く">
+      <div class="release-library-art release-library-art-image">
+        <div class="jacket-ui-frame">
+          <span class="jacket-ui-code" aria-hidden="true">ARTWORK // 22</span>
+          <span class="jacket-ui-corner tl" aria-hidden="true"></span>
+          <span class="jacket-ui-corner tr" aria-hidden="true"></span>
+          <span class="jacket-ui-corner bl" aria-hidden="true"></span>
+          <span class="jacket-ui-corner br" aria-hidden="true"></span>
+          <img src="assets/releases/cataclysm_world_a.png" alt="cataclysm world A ジャケット">
+        </div>
+        <span class="release-open-mark">YOUTUBE ↗</span>
+      </div>
+      <div class="release-library-divider"></div>
+      <div class="release-library-info">
+        <div class="release-library-meta-top">
+          <span class="release-bpm">BPM 248</span>
+          <span class="release-length">LENGTH 2:11</span>
+          <span class="release-date">2026/03/03</span>
+          <span class="release-genre">MELODIC / RHYTHM GAME</span>
+        </div>
+        <h3>cataclysm world A</h3>
+        <p>pixilnoise</p>
+      </div>
+    </a>
 
     <a class="release-library-card reveal-on-scroll card-float release-external-link"
        data-categories="hard collab"
@@ -1403,6 +1472,12 @@ document.querySelectorAll('.digital').forEach(el=>{
       if(previousFocus && typeof previousFocus.focus === 'function') previousFocus.focus({preventScroll:true});
     }
   }
+
+  // Fallback when a video thumbnail cannot load (including offline ZIP previews).
+  artEl.addEventListener('error', ()=>{
+    artEl.hidden = true;
+    noArtEl.hidden = false;
+  });
 
   function populateResult(track){
     titleEl.textContent = track.title;

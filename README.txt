@@ -685,3 +685,20 @@ PIXILNOISE PERSONAL SITE v76 JCORE RELEASE
 - Updated HOME LATEST RELEASE to the new track.
 - Updated HOME latest works to keep the newest four releases.
 - v75 WebGL 3D MV, JA/EN, DARK/LIGHT, RANDOM SELECT and existing releases are preserved.
+
+
+PIXILNOISE PERSONAL SITE v77 CATACLYSM WORLD A RELEASE
+=====================================================
+- Base: v76 JCORE RELEASE (including v75 Interactive 3D MV).
+- Added "cataclysm world A" to RELEASE, dated 2026/06/15:
+  YouTube: https://youtu.be/u3YC9muJP30
+  BPM 248 / LENGTH 2:11 / MELODIC / RHYTHM GAME.
+- Categories: HARD (rhythm game) / MELODIC. All filters, sortable metadata
+  and random track selection include this new release automatically.
+- No jacket image was supplied in this update; the official YouTube thumbnail
+  is loaded from i.ytimg.com when online. If offline/unavailable, a labeled,
+  local CSS fallback appears. To use the finished artwork, replace the image
+  URL in release.html with an asset placed in assets/releases/.
+- HOME LATEST RELEASE and its latest four cards stay unchanged because
+  the new entry's stated release date is 2026/06/15, earlier than their dates.
+- The existing site structure and other artwork/assets are unchanged.
